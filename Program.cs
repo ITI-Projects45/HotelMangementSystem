@@ -1,13 +1,53 @@
+using HotelMangementSystem.Models;
+using HotelMangementSystem.Models.Database;
+using HotelMangementSystem.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 namespace HotelMangementSystem
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<DatabaseContext>(
+              options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnStr")));
+
+
+
+            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+
+
+            })
+            .AddEntityFrameworkStores<DatabaseContext>();
+
+
+
+            builder.Services.AddScoped<IBillRepo, BillRepo>();
+            builder.Services.AddScoped<ICityRepo, CityRepo>();
+            builder.Services.AddScoped<IHotelRepo, HotelRepo>();
+            builder.Services.AddScoped<IReservationRepo, ReservationRepo>();
+            builder.Services.AddScoped<IReviewRepo, ReviewRepo>();
+            builder.Services.AddScoped<IRoomRepo, RoomRepo>();
+            builder.Services.AddScoped<IRoomReservationRepo, RoomReservationRepo>();
+            builder.Services.AddScoped<IUserReviewRepo, UserReviewRepo>();
+
+
+
+
+
+
+
+
 
             var app = builder.Build();
 
