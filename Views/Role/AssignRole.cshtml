@@ -1,0 +1,56 @@
+﻿@model HotelMangementSystem.ViewModels.AssignRoleModel
+
+@{
+    ViewData["Title"] = "AssignRole";
+    //ViewBag.UserAndRoles.Users
+    SelectList users = new SelectList(ViewBag.UserAndRoles.Users,"Id","UserName");
+    SelectList roles = new SelectList(ViewBag.UserAndRoles.Roles,"Name","Name");
+
+}
+
+<h1>AssignRole</h1>
+
+<h4>AssignRoleModel</h4>
+<hr />
+@if (ViewBag.RoleAdded != null && ViewBag.RoleAdded == true)
+{
+    <div class="alert alert-success"> Role has been assigned successfully</div>
+}
+@if (ViewBag.RoleNotAdded != null && ViewBag.RoleNotAdded == true)
+{
+    <div class="alert alert-danger">An error was occured</div>
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AssignRole">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+
+                <select class="form form-control"
+                        name="UserId" id="UserId"
+                        asp-items="users">
+                    <option value="0">--- Select User ---</option>
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <select class="form form-control"
+                        name="RoleName" id="RoleName"
+                        asp-items="roles">
+                    <option value="0">--- Select Role ---</option>
+                </select>
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Assign" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

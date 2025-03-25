@@ -1,0 +1,42 @@
+﻿@model HotelMangementSystem.ViewModels.NewRoleViewModel
+
+@{
+    ViewData["Title"] = "AddNewRole";
+}
+
+<h1>AddNewRole</h1>
+
+<h4>NewRoleViewModel</h4>
+<hr />
+@if (ViewBag.success!= null && ViewBag.success == true)
+{
+    <div class="alert alert-success">New role has been added successfully</div>
+}
+@if (ViewBag.fail != null && ViewBag.fail == true)
+{
+    <div class="alert alert-danger">Role is already exists</div>
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddNewRole">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@* <div> *@
+@*     <a asp-action="Index">Back to List</a> *@
+@* </div> *@
+
+<partial name="_ValidationScriptsPartial" />
+

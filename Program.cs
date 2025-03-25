@@ -1,5 +1,7 @@
+using HotelMangementSystem.Models;
 using HotelMangementSystem.Models.Database;
 using HotelMangementSystem.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelMangementSystem
@@ -15,6 +17,19 @@ namespace HotelMangementSystem
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<DatabaseContext>(
               options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnStr")));
+
+
+
+            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+
+
+            })
+            .AddEntityFrameworkStores<DatabaseContext>();
+
 
 
             builder.Services.AddScoped<IBillRepo, BillRepo>();
