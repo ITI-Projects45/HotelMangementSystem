@@ -104,16 +104,49 @@ namespace HotelMangementSystem.Controllers
 
         #endregion
 
-
-        #region Logout
-
-        public async Task<IActionResult> Logout()
+        #region Login
+        public IActionResult Login()
         {
-            await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginAsync(LoginViewModel loginForm)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = await userManager.FindByEmailAsync(loginForm.Email);
+                if (user != null)
+                {
+                    bool found= await userManager.CheckPasswordAsync(user, loginForm.Password);
+                    if (found)
+                    {
+                        await signInManager.SignInAsync(user, loginForm.RememberMe);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid login.");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "No account found with this email.");
+                }
+            }
+            return View("Login", loginForm);
         }
         #endregion
 
+        #region Logout
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+
+            return RedirectToAction("Login", "Account");
+        }
+        #endregion
 
     }
 }
