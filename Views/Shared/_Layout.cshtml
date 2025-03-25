@@ -25,6 +25,10 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li><li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AddNewRole">Add New Role</a>
+                        </li></li><li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AssignRole">Assign Role</a>
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
