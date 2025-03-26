@@ -22,7 +22,7 @@ namespace HotelMangementSystem.Controllers
         }
 
         #region Add New Role
-
+        [Authorize(Roles = "TopAdmin")]
         public IActionResult AddNewRole()
         {
             return View();
@@ -69,6 +69,7 @@ namespace HotelMangementSystem.Controllers
 
 
         #region Assign Role To user
+        [Authorize(Roles = "TopAdmin")]
 
         [HttpGet]
         public IActionResult AssignRole()

@@ -119,7 +119,7 @@ namespace HotelMangementSystem.Controllers
                 ApplicationUser user = await userManager.FindByEmailAsync(loginForm.Email);
                 if (user != null)
                 {
-                    bool found= await userManager.CheckPasswordAsync(user, loginForm.Password);
+                    bool found = await userManager.CheckPasswordAsync(user, loginForm.Password);
                     if (found)
                     {
                         await signInManager.SignInAsync(user, loginForm.RememberMe);
@@ -132,7 +132,7 @@ namespace HotelMangementSystem.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "No account found with this email.");
+                    ModelState.AddModelError("", "Invalid login.");
                 }
             }
             return View("Login", loginForm);
