@@ -145,7 +145,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bills");
+                    b.ToTable("Bills", (string)null);
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.City", b =>
@@ -169,7 +169,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Hotel", b =>
@@ -219,7 +219,7 @@ namespace HotelMangementSystem.Migrations
                     b.HasIndex("ManagerId")
                         .IsUnique();
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hotels", (string)null);
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Reservation", b =>
@@ -262,7 +262,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Review", b =>
@@ -303,7 +303,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasIndex("UserReviewId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Room", b =>
@@ -353,7 +353,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasIndex("RoomReservationId");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.RoomReservation", b =>
@@ -375,7 +375,7 @@ namespace HotelMangementSystem.Migrations
                     b.HasIndex("ReservationId")
                         .IsUnique();
 
-                    b.ToTable("RoomReservations");
+                    b.ToTable("RoomReservations", (string)null);
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.UserReview", b =>
@@ -398,7 +398,7 @@ namespace HotelMangementSystem.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserReviews");
+                    b.ToTable("UserReviews", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

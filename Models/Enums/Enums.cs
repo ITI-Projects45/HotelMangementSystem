@@ -15,10 +15,15 @@
         }
         public enum RoomTypes
         {
-
+            Single = 1,
+            Double = 2,
+            Suite = 4,
+            Family = 8
         }
         public enum RoomStatuses
         {
+            Available = 1,
+            NotAvailable = 2
 
         }
 
