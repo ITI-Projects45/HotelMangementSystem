@@ -2,25 +2,39 @@
 
 @{
     ViewData["Title"] = "Login";
+    Layout = "_CustomeLayout";
+
 }
 
-<h1>Login</h1>
+<div class="hero-wrap" style="background-image: url('/images/bg_3.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text d-flex align-itemd-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                <div class="text">
+                    @* <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="hotels.html">Hotels</a></span> <span>Hotel Name</span></p> *@
+                    <h1 class="mb-4 bread">Login</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 mt-5 me-5">
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class=" form form-control " />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" type="password" />
+                <input asp-for="Password" class=" form form-control " type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
@@ -29,16 +43,17 @@
                     <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
                 </label>
             </div>
+            <div >
+                <a class="text-secondary" asp-action="Register">Create An Account</a>
+            </div>
 
             <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
+                <input type="submit" value="Login" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Register">Create An Account</a>
-</div>
+
 
 <partial name="_ValidationScriptsPartial" />

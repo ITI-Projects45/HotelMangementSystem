@@ -2,14 +2,28 @@
 
 @{
     ViewData["Title"] = "Register";
+    Layout = "_CustomeLayout";
+
 }
 
-<h1>Register</h1>
+<div class="hero-wrap" style="background-image: url('/images/bg_3.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text d-flex align-itemd-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                <div class="text">
+                    @* <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="hotels.html">Hotels</a></span> <span>Hotel Name</span></p> *@
+                    <h1 class="mb-4 bread">Register</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h4>RegistrationViewModel</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3"></div>
+
+    <div class="col-md-6 mt-5 me-5">
         <form asp-action="Register">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
