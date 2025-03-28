@@ -112,6 +112,56 @@ namespace HotelMangementSystem.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "21da2bc6-abc9-47ad-9a0e-d3cd67717ead",
+                            Email = "manager@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MANAGER@EXAMPLE.COM",
+                            NormalizedUserName = "HOTELMANAGER",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN4u5v1Jxyz12345==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "11865e41-1354-4a92-a078-463eccd16c4c",
+                            TwoFactorEnabled = false,
+                            UserName = "hotelmanager"
+                        },
+                        new
+                        {
+                            Id = "11111111-2222-3333-4444-555555555555",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "20692352-5039-4bd4-814e-59f06b36b3ae",
+                            Email = "user1@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER1@EXAMPLE.COM",
+                            NormalizedUserName = "USER1",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMuBNaXYZ67890==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "8527dce5-38d9-4cc5-bd2b-ec6d198a56be",
+                            TwoFactorEnabled = false,
+                            UserName = "user1"
+                        },
+                        new
+                        {
+                            Id = "66666666-7777-8888-9999-000000000000",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7f4ad393-efcd-4202-8243-19cd50cb0aa7",
+                            Email = "user2@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER2@EXAMPLE.COM",
+                            NormalizedUserName = "USER2",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMeV7MnABC98765==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "640e68d4-d8b3-48c4-be7d-5162c15d7ac6",
+                            TwoFactorEnabled = false,
+                            UserName = "user2"
+                        });
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Bill", b =>
@@ -134,6 +184,9 @@ namespace HotelMangementSystem.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
+                    b.Property<int>("ReservationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ReservistionStatus")
                         .HasColumnType("int");
 
@@ -145,7 +198,24 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bills", (string)null);
+                    b.HasIndex("ReservationId")
+                        .IsUnique();
+
+                    b.ToTable("Bills");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CheckoutDate = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LateCheckout = false,
+                            PaymentMethod = 1,
+                            ReservationId = 1,
+                            ReservistionStatus = 2,
+                            RoomCharge = 500,
+                            TotalPrice = 1500
+                        });
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.City", b =>
@@ -169,7 +239,30 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Country = "Egypt",
+                            IsDeleted = false,
+                            Name = "Cairo"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Country = "Egypt",
+                            IsDeleted = false,
+                            Name = "Alexandria"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Country = "Egypt",
+                            IsDeleted = false,
+                            Name = "Giza"
+                        });
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Hotel", b =>
@@ -209,7 +302,7 @@ namespace HotelMangementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StarRatig")
+                    b.Property<int>("StarRating")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -219,7 +312,35 @@ namespace HotelMangementSystem.Migrations
                     b.HasIndex("ManagerId")
                         .IsUnique();
 
-                    b.ToTable("Hotels", (string)null);
+                    b.ToTable("Hotels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CityId = 1,
+                            Description = "Luxury accommodation in Cairo.",
+                            IsDeleted = false,
+                            Location = "Downtown",
+                            ManagerId = "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+                            Name = "Hotel Cleopatra",
+                            NumberOfRooms = 200,
+                            PhoneNumber = "0123456789",
+                            StarRating = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CityId = 2,
+                            Description = "Beachside hotel with stunning views.",
+                            IsDeleted = false,
+                            Location = "Seafront",
+                            ManagerId = "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+                            Name = "Hotel Alexandria Pearl",
+                            NumberOfRooms = 150,
+                            PhoneNumber = "0223456789",
+                            StarRating = 4
+                        });
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Reservation", b =>
@@ -229,9 +350,6 @@ namespace HotelMangementSystem.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BillId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
@@ -257,12 +375,22 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BillId")
-                        .IsUnique();
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BookingDate = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CheckInDate = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CheckOutDate = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Deposite = 500,
+                            IsDeleted = false,
+                            ReservistionStatus = 1,
+                            UserId = "11111111-2222-3333-4444-555555555555"
+                        });
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Review", b =>
@@ -290,10 +418,8 @@ namespace HotelMangementSystem.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("UserReviewId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -301,9 +427,29 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("UserReviewId");
+                    b.ToTable("Reviews");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "Amazing experience!",
+                            HotelId = 1,
+                            IsDeleted = false,
+                            ReviewDate = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            StarNumber = 5,
+                            UserId = "11111111-2222-3333-4444-555555555555"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "Very good service.",
+                            HotelId = 1,
+                            IsDeleted = false,
+                            ReviewDate = new DateTime(2025, 3, 2, 0, 0, 0, 0, DateTimeKind.Utc),
+                            StarNumber = 4,
+                            UserId = "66666666-7777-8888-9999-000000000000"
+                        });
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Room", b =>
@@ -330,30 +476,46 @@ namespace HotelMangementSystem.Migrations
                     b.Property<int>("PricePerNight")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReservationId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoomReservationId")
+                    b.Property<int>("RoomStatus")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("roomStatus")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HotelId");
 
-                    b.HasIndex("ReservationId");
+                    b.ToTable("Rooms");
 
-                    b.HasIndex("RoomReservationId");
-
-                    b.ToTable("Rooms", (string)null);
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Capacity = 1,
+                            Description = "Cozy single room.",
+                            HotelId = 1,
+                            IsDeleted = false,
+                            PricePerNight = 50,
+                            RoomNumber = 101,
+                            RoomStatus = 2,
+                            RoomType = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Capacity = 2,
+                            Description = "Spacious double room.",
+                            HotelId = 1,
+                            IsDeleted = false,
+                            PricePerNight = 100,
+                            RoomNumber = 102,
+                            RoomStatus = 1,
+                            RoomType = 2
+                        });
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.RoomReservation", b =>
@@ -372,10 +534,19 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReservationId")
-                        .IsUnique();
+                    b.HasIndex("ReservationId");
 
-                    b.ToTable("RoomReservations", (string)null);
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomReservations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ReservationId = 1,
+                            RoomId = 1
+                        });
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.UserReview", b =>
@@ -395,10 +566,25 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("ReviewId");
 
-                    b.ToTable("UserReviews", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserReviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ReviewId = 1,
+                            UserId = "11111111-2222-3333-4444-555555555555"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ReviewId = 2,
+                            UserId = "66666666-7777-8888-9999-000000000000"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -507,6 +693,17 @@ namespace HotelMangementSystem.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HotelMangementSystem.Models.Bill", b =>
+                {
+                    b.HasOne("HotelMangementSystem.Models.Reservation", "Reservation")
+                        .WithOne("Bill")
+                        .HasForeignKey("HotelMangementSystem.Models.Bill", "ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reservation");
+                });
+
             modelBuilder.Entity("HotelMangementSystem.Models.Hotel", b =>
                 {
                     b.HasOne("HotelMangementSystem.Models.City", "City")
@@ -528,19 +725,11 @@ namespace HotelMangementSystem.Migrations
 
             modelBuilder.Entity("HotelMangementSystem.Models.Reservation", b =>
                 {
-                    b.HasOne("HotelMangementSystem.Models.Bill", "Bill")
-                        .WithOne("Reservation")
-                        .HasForeignKey("HotelMangementSystem.Models.Reservation", "BillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HotelMangementSystem.Models.ApplicationUser", "User")
                         .WithMany("Reservations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Bill");
 
                     b.Navigation("User");
                 });
@@ -555,17 +744,13 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasOne("HotelMangementSystem.Models.ApplicationUser", "User")
                         .WithMany("Reviews")
-                        .HasForeignKey("UserId");
-
-                    b.HasOne("HotelMangementSystem.Models.UserReview", "UserReview")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserReviewId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Hotel");
 
                     b.Navigation("User");
-
-                    b.Navigation("UserReview");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Room", b =>
@@ -576,39 +761,43 @@ namespace HotelMangementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HotelMangementSystem.Models.Reservation", "Reservation")
-                        .WithMany("Rooms")
-                        .HasForeignKey("ReservationId");
-
-                    b.HasOne("HotelMangementSystem.Models.RoomReservation", "RoomReservation")
-                        .WithMany("Rooms")
-                        .HasForeignKey("RoomReservationId");
-
                     b.Navigation("Hotel");
-
-                    b.Navigation("Reservation");
-
-                    b.Navigation("RoomReservation");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.RoomReservation", b =>
                 {
                     b.HasOne("HotelMangementSystem.Models.Reservation", "Reservation")
-                        .WithOne("RoomReservation")
-                        .HasForeignKey("HotelMangementSystem.Models.RoomReservation", "ReservationId")
+                        .WithMany("RoomReservations")
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HotelMangementSystem.Models.Room", "Room")
+                        .WithMany("RoomReservations")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Reservation");
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.UserReview", b =>
                 {
-                    b.HasOne("HotelMangementSystem.Models.ApplicationUser", "User")
-                        .WithOne("UserReview")
-                        .HasForeignKey("HotelMangementSystem.Models.UserReview", "UserId")
+                    b.HasOne("HotelMangementSystem.Models.Review", "Review")
+                        .WithMany("UserReviews")
+                        .HasForeignKey("ReviewId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("HotelMangementSystem.Models.ApplicationUser", "User")
+                        .WithMany("UserReviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Review");
 
                     b.Navigation("User");
                 });
@@ -672,12 +861,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.Navigation("Reviews");
 
-                    b.Navigation("UserReview");
-                });
-
-            modelBuilder.Entity("HotelMangementSystem.Models.Bill", b =>
-                {
-                    b.Navigation("Reservation");
+                    b.Navigation("UserReviews");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.City", b =>
@@ -694,19 +878,19 @@ namespace HotelMangementSystem.Migrations
 
             modelBuilder.Entity("HotelMangementSystem.Models.Reservation", b =>
                 {
-                    b.Navigation("RoomReservation");
+                    b.Navigation("Bill");
 
-                    b.Navigation("Rooms");
+                    b.Navigation("RoomReservations");
                 });
 
-            modelBuilder.Entity("HotelMangementSystem.Models.RoomReservation", b =>
+            modelBuilder.Entity("HotelMangementSystem.Models.Review", b =>
                 {
-                    b.Navigation("Rooms");
+                    b.Navigation("UserReviews");
                 });
 
-            modelBuilder.Entity("HotelMangementSystem.Models.UserReview", b =>
+            modelBuilder.Entity("HotelMangementSystem.Models.Room", b =>
                 {
-                    b.Navigation("Reviews");
+                    b.Navigation("RoomReservations");
                 });
 #pragma warning restore 612, 618
         }

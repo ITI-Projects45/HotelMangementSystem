@@ -14,9 +14,7 @@ namespace HotelMangementSystem.Models
         public int TotalPrice { get; set; }
         public ReservistionStatuses ReservistionStatus { get; set; }
         public bool IsDeleted { get; set; }
-
-
+        public int ReservationId { get; set; }
         public Reservation? Reservation { get; set; }
-
     }
 }

@@ -15,15 +15,10 @@ namespace HotelMangementSystem.Models
 
         [ForeignKey("User")]
         public string UserId { get; set; }
-        [ForeignKey("Bill")]
-        public int BillId { get; set; }
-
-
-        public Bill? Bill { get; set; }
-        public List<Room>? Rooms { get; set; }
         public ApplicationUser? User { get; set; }
 
-        public RoomReservation? RoomReservation { get; set; }
+        public Bill? Bill { get; set; }
+        public List<RoomReservation>? RoomReservations { get; set; }
 
     }
 }
