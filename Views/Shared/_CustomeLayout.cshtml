@@ -73,9 +73,14 @@
                                          class="profile-navbar"
                                          alt="" />
                                     <div class="cdropdown-content">
+                                        <p class="nav-link text-dark">Welcome , @(User.Identity.IsAuthenticated?@User.Identity.Name: "Guest")
+                     
+                                                </p>
+
 
                                         <a href="#">Profile</a>
-                                        <a href="#">Become Hotel Manager</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="AddNewHotel">Become Hotel Manager</a>
+
                                         
                                         @if (User.IsInRole("TopAdmin"))
                                         {

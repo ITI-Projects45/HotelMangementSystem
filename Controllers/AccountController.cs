@@ -45,6 +45,12 @@ namespace HotelMangementSystem.Controllers
 
                     if (userManager.Users.Count() == 0)
                     {
+                        ApplicationRole GuestRole = new ApplicationRole()
+                        {
+                            Name = "Guest"
+                        };
+
+                        IdentityResult GuestRoleResult = await roleManager.CreateAsync(GuestRole);
                         ApplicationRole role = new ApplicationRole()
                         {
                             Name = "TopAdmin"
@@ -76,9 +82,12 @@ namespace HotelMangementSystem.Controllers
                     }
                     else
                     {
+
                         IdentityResult UserResult = await userManager.CreateAsync(newUser, RegisterForm.Password);
                         if (UserResult.Succeeded)
                         {
+                            await userManager.AddToRoleAsync(newUser, "Guest");
+
                             await signInManager.SignInAsync(newUser, false);
                             return RedirectToAction("Index", "Home");
                         }
@@ -142,6 +151,8 @@ namespace HotelMangementSystem.Controllers
         #region Logout
         public async Task<IActionResult> Logout()
         {
+
+
             await signInManager.SignOutAsync();
 
             return RedirectToAction("Login", "Account");

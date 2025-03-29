@@ -1,3 +1,4 @@
+using HotelMangementSystem.Hubs;
 using HotelMangementSystem.Models;
 using HotelMangementSystem.Models.Database;
 using HotelMangementSystem.Repositories;
@@ -30,7 +31,18 @@ namespace HotelMangementSystem
             })
             .AddEntityFrameworkStores<DatabaseContext>();
 
+            builder.Services.AddSignalR();
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(url => true)
+                    .AllowCredentials();
 
+                });
+            });
 
             builder.Services.AddScoped<IBillRepo, BillRepo>();
             builder.Services.AddScoped<ICityRepo, CityRepo>();
@@ -40,6 +52,7 @@ namespace HotelMangementSystem
             builder.Services.AddScoped<IRoomRepo, RoomRepo>();
             builder.Services.AddScoped<IRoomReservationRepo, RoomReservationRepo>();
             builder.Services.AddScoped<IUserReviewRepo, UserReviewRepo>();
+            builder.Services.AddScoped<IPendingHotelRepo, PendingHotelRepo>();
 
 
 
@@ -58,6 +71,8 @@ namespace HotelMangementSystem
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.MapHub<HAddHotelHub>("/HAddHotel");
+            app.UseCors();
 
             app.UseHttpsRedirection();
             app.UseRouting();

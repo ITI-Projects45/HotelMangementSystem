@@ -8,7 +8,7 @@
         public bool IsDeleted { get; set; }
 
 
-        public List<Hotel> Hotels { get; set; }
+        public List<Hotel>? Hotels { get; set; }
 
     }
 }

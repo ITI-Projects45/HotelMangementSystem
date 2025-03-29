@@ -145,7 +145,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bills", (string)null);
+                    b.ToTable("Bills");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.City", b =>
@@ -169,7 +169,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Hotel", b =>
@@ -216,10 +216,58 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("ManagerId")
-                        .IsUnique();
+                    b.HasIndex("ManagerId");
 
-                    b.ToTable("Hotels", (string)null);
+                    b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("HotelMangementSystem.Models.PendingHotel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ManagerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfRooms")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StarRatig")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("ManagerId");
+
+                    b.ToTable("PendingHotels");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Reservation", b =>
@@ -262,7 +310,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Review", b =>
@@ -303,7 +351,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasIndex("UserReviewId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Room", b =>
@@ -353,7 +401,7 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasIndex("RoomReservationId");
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.RoomReservation", b =>
@@ -375,7 +423,7 @@ namespace HotelMangementSystem.Migrations
                     b.HasIndex("ReservationId")
                         .IsUnique();
 
-                    b.ToTable("RoomReservations", (string)null);
+                    b.ToTable("RoomReservations");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.UserReview", b =>
@@ -398,7 +446,7 @@ namespace HotelMangementSystem.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserReviews", (string)null);
+                    b.ToTable("UserReviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -516,8 +564,27 @@ namespace HotelMangementSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("HotelMangementSystem.Models.ApplicationUser", "Manager")
-                        .WithOne("Hotel")
-                        .HasForeignKey("HotelMangementSystem.Models.Hotel", "ManagerId")
+                        .WithMany("Hotel")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+
+                    b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("HotelMangementSystem.Models.PendingHotel", b =>
+                {
+                    b.HasOne("HotelMangementSystem.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HotelMangementSystem.Models.ApplicationUser", "Manager")
+                        .WithMany()
+                        .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
