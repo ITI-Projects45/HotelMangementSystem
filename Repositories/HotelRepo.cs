@@ -23,7 +23,7 @@ namespace HotelMangementSystem.Repositories
         {
             return context.Hotels.Where(b => b.IsDeleted == false && b.ManagerId.Contains(id)).ToList();
 
-            this.context = context;
+
         }
         public async Task<List<Hotel>> GetHotelsByCityAsync(string cityName, int page, int pageSize)
         {
@@ -58,7 +58,7 @@ namespace HotelMangementSystem.Repositories
         {
             return await context.Cities
                 .Select(c => c.Name)
-                .Distinct() 
+                .Distinct()
                 .ToListAsync();
         }
         public async Task<Hotel> GetHotelByIdAsync(int id)
@@ -66,6 +66,11 @@ namespace HotelMangementSystem.Repositories
             return await context.Hotels
                 .Include(h => h.Rooms)
                 .FirstOrDefaultAsync(h => h.Id == id);
+        }
+        public List<Hotel> GetFourTopRatedRandomizedHotels()
+        {
+            List<Hotel> hotels = context.Hotels.Where(h => h.IsDeleted == false && h.StarRatig > 4).OrderBy(h => Guid.NewGuid()).Take(4).ToList();
+            return hotels;
         }
     }
 }

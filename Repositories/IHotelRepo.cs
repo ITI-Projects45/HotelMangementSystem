@@ -6,10 +6,11 @@ namespace HotelMangementSystem.Repositories
     {
         public List<Hotel> GetHotels();
         public List<Hotel> GetHotelsByManagerId(string id);
-    }
+
         Task<List<Hotel>> GetHotelsByCityAsync(string cityName, int page, int pageSize);
         Task<int> GetTotalHotelsCountAsync(string cityName);
         Task<List<string>> GetAllCitiesAsync();
         Task<Hotel> GetHotelByIdAsync(int id);
-        }
+        List<Hotel> GetFourTopRatedRandomizedHotels();
+    }
 }

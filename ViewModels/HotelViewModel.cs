@@ -8,5 +8,7 @@
         public string Location { get; set; }
         public string PhoneNumber { get; set; }
         public int NumberOfRooms { get; set; }
+        public int StarRatig { get; set; }
+
     }
 }

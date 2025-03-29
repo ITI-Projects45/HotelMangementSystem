@@ -15,7 +15,7 @@ namespace HotelMangementSystem.Controllers
             this.hotelRepo = hotelRepo;
         }
 
-        public async Task<IActionResult> Index(string cityName, int page = 1, int pageSize = 5)
+        public async Task<IActionResult> Index(string cityName, int page = 1, int pageSize = 6)
         {
             var hotels = await hotelRepo.GetHotelsByCityAsync(cityName, page, pageSize);
 
@@ -25,7 +25,9 @@ namespace HotelMangementSystem.Controllers
                 Name = h.Name,
                 Location = h.City.Name,
                 PhoneNumber = h.PhoneNumber,
-                Description = h.Description
+                Description = h.Description,
+                StarRatig = h.StarRatig,
+
             }).ToList();
 
             int totalHotels = await hotelRepo.GetTotalHotelsCountAsync(cityName);
@@ -40,7 +42,8 @@ namespace HotelMangementSystem.Controllers
         public async Task<IActionResult> Hotel(int id)
         {
             Hotel hotel = await hotelRepo.GetHotelByIdAsync(id);
-            if (hotel == null) {
+            if (hotel == null)
+            {
                 return NotFound();
             }
             return View("Hotel", hotel);

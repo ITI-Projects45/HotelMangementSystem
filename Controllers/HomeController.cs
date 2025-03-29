@@ -26,7 +26,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        List<Hotel> hotels = hotelRepo.GetAll();
+        List<Hotel> hotels = hotelRepo.GetFourTopRatedRandomizedHotels();
         ViewBag.hotels = hotels;
         List<Review> reviews = reviewRepo.getAllWithUserAndHotels();
         ViewBag.reviews = reviews;
@@ -35,7 +35,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult About()
     {
         return View();
     }
