@@ -23,7 +23,7 @@ namespace HotelMangementSystem.Repositories
         }
         public List<T> GetAll()
         {
-            return context.Set<T>().ToList();
+            return context.Set<T>().AsNoTracking().ToList();
         }
         public void Insert(T item)
         {
