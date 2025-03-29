@@ -1,0 +1,35 @@
+﻿@model Hotel
+@{
+    ViewData["Title"] = "MyHotel";
+}
+
+<div class="hero-wrap" style="background-image: url('/images/bg_3.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text d-flex align-itemd-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                <div class="text">
+                    @* <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="hotels.html">Hotels</a></span> <span>Hotel Name</span></p> *@ 
+                    <h1 class="mb-4 bread">@Model.Name</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-3"></div>
+
+    <div class="col-md-6 mt-5 me-5">
+<h3>@Model.Name</h3>
+        <p>Hotel Description : @Model.Description</p>
+        <p>Hotel Location : @Model.Location</p>
+        <p>Hotel NumberOfRooms : @Model.NumberOfRooms</p>
+        <p>Hotel StarRatig : @Model.StarRatig</p>
+        <p>Hotel PhoneNumber : @Model.PhoneNumber</p>
+        <a asp-controller="" asp-action="" class="btn btn-danger mb-5">Delete Hotel</a>
+    </div>
+</div>
+
+

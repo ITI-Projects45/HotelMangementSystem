@@ -4,17 +4,17 @@
     <title>@ViewData["Title"] - HotelMangementSystem</title>
     <meta charset="utf-8" />
     <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />  *@
     @* <link rel="stylesheet" href="~/HotelMangementSystem.styles.css" asp-append-version="true" /> *@
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700&display=swap"
-          rel="stylesheet" />
+    rel="stylesheet" />
 
     <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css" />
     <link rel="stylesheet" href="/css/animate.css" />
-    
+
 
     <link rel="stylesheet" href="/css/owl.carousel.min.css" />
     <link rel="stylesheet" href="/css/owl.theme.default.min.css" />
@@ -37,16 +37,16 @@
 <body>
     <!-- Start nav -->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-         id="ftco-navbar">
+    id="ftco-navbar">
         <div class="container">
             <a class="navbar-brand" asp-action="Index" asp-controller="Home">Hotel<span>Haven</span></a>
             <button class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#ftco-nav"
-                    aria-controls="ftco-nav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
+            type="button"
+            data-toggle="collapse"
+            data-target="#ftco-nav"
+            aria-controls="ftco-nav"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
             </button>
 
@@ -61,22 +61,41 @@
                     <li class="nav-item">
                         <a href="about.html" class="nav-link">About Us</a>
                     </li>
-             
+
                     <li class="nav-item">
                         <!---------------------------------------------------------------------------------------->
 
                         <div class="customnavbar nav-link">
                             <div class="position-relative custome-w">
                                 <div class="cdropdown">
+
                                     <img id="profilePhoto"
-                                         src="/images/user-profile-circle-solid.svg"
-                                         class="profile-navbar"
-                                         alt="" />
+                                    src="/images/user-profile-circle-solid.svg"
+                                    class="profile-navbar"
+                                    alt="" /><span id="count" class="text-danger">@ViewBag.PendingHotelNumberNotification</span>
                                     <div class="cdropdown-content">
+                                        <p class="nav-link text-dark">Welcome , @(User.Identity.IsAuthenticated?@User.Identity.Name: "Guest")
+
+                                        </p>
+
 
                                         <a href="#">Profile</a>
-                                        <a href="#">Become Hotel Manager</a>
-                                        
+                                        @if (User.IsInRole("TopAdmin"))
+                                        {
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="PendingHotels">Pending Hotels <span id="count" class="text-danger">@ViewBag.PendingHotelNumberNotification</span></a>
+
+
+
+                                        }else
+                                        {
+
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="AddNewHotel">Become Hotel Manager</a>
+                                        }
+                                        @if (!User.IsInRole("TopAdmin"))
+                                        {
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="MyHotels">My Hotels</a>
+                                        }
+
                                         @if (User.IsInRole("TopAdmin"))
                                         {
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AddNewRole">Add New Role</a>
@@ -84,15 +103,15 @@
                                         }
                                         @if (User.Identity.IsAuthenticated)
                                         {
-                        
-                                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                        
+
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+
                                         }
                                         else
                                         {
-                       
-                                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                        
+
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
                                         }
                                     </div>
@@ -107,11 +126,12 @@
         </div>
     </nav>
     <!-- END nav -->
+    <div id="Notification"></div>
 
- @RenderBody()
+    @RenderBody()
 
     <footer class="ftco-footer ftco-section img"
-            style="background-image: url(images/bg_4.jpg)">
+    style="background-image: url(images/bg_4.jpg)">
         <div class="overlay"></div>
         <div class="container">
             <div class="row mb-5">
@@ -187,22 +207,82 @@
     <div id="ftco-loader" class="show fullscreen">
         <svg class="circular" width="48px" height="48px">
             <circle class="path-bg"
-                    cx="24"
-                    cy="24"
-                    r="22"
-                    fill="none"
-                    stroke-width="4"
-                    stroke="#eeeeee" />
+            cx="24"
+            cy="24"
+            r="22"
+            fill="none"
+            stroke-width="4"
+            stroke="#eeeeee" />
             <circle class="path"
-                    cx="24"
-                    cy="24"
-                    r="22"
-                    fill="none"
-                    stroke-width="4"
-                    stroke-miterlimit="10"
-                    stroke="#F96D00" />
+            cx="24"
+            cy="24"
+            r="22"
+            fill="none"
+            stroke-width="4"
+            stroke-miterlimit="10"
+            stroke="#F96D00" />
         </svg>
     </div> 
+
+    <script src="/lib/microsoft-signalr/signalr.js"></script>
+    @if (User.IsInRole("TopAdmin"))
+    {
+       <script>
+                   var connection = new signalR.HubConnectionBuilder()
+                  .withUrl("/HAddHotel")
+                  .build();
+
+                connection
+                  .start()
+                  .then(() => {
+                    console.log("connection started");
+                  })
+                  .catch();
+                        connection.on("NewHotelAdded",(number)=>{
+                           $("#count").html = number
+                           console.log(number);
+                console.log("Hotel added successfuly");
+            });
+                    connection.on("CheckConnect",(t,b)=>{
+                console.log(t,b);
+            });
+                connection.on("NewHotelAdded",(hotelName)=>{
+                     location.reload();
+            });
+          
+       </script>
+    }  
+    @if (User.Identity.Name == @ViewBag.userConnection)
+    {
+       <script>
+                   var connection = new signalR.HubConnectionBuilder()
+                  .withUrl("/HAddHotel")
+                  .build();
+
+                connection
+                  .start()
+                  .then(() => {
+                    console.log("connection started");
+                  })
+                  .catch();
+                        connection.on("NewHotelAdded",(number)=>{
+                           $("#count").html(number)
+                           console.log(number);
+                console.log("Hotel added successfuly");
+            });
+                    connection.on("CheckConnect",(t,b)=>{
+                console.log(t,b);
+                  connection.on("HotelAdded",(hotelName)=>{
+                     $("#hotelName").html(hotelName);
+                console.log(hotelName);
+            });
+            });
+              connection.on("NewHotelAdded",(hotelName)=>{
+                     location.reload();
+            });
+          
+       </script>
+    }
 
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery-migrate-3.0.1.min.js"></script>

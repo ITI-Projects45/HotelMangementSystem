@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using HotelMangementSystem.Models;
 using HotelMangementSystem.Models.Database;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +16,19 @@ namespace HotelMangementSystem.Repositories
         }
         public List<Review> getAllWithUser()
         {
-            return context.Reviews.Include("User").ToList();
+            return context.Reviews.Include("User").Where(r => r.IsDeleted == false).ToList();
 
         }
         public List<Review> getAllWithUserAndHotels()
         {
-            return context.Reviews.Include("User").Include("Hotel").Where(r => r.IsDeleted == true).ToList();
+            List<Review> reviews = context.Reviews.Include("User").Include("Hotel").Where(r => r.IsDeleted == false).ToList();
 
+            return reviews;
         }
+        public List<Review> GetReviews()
+        {
+            return context.Reviews.Where(b => b.IsDeleted == false).ToList();
+        }
+
     }
 }

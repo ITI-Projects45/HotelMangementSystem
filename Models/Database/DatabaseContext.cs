@@ -14,6 +14,7 @@ namespace HotelMangementSystem.Models.Database
         public DbSet<Review> Reviews { get; set; }
         public DbSet<RoomReservation> RoomReservations { get; set; }
         public DbSet<UserReview> UserReviews { get; set; }
+        public DbSet<PendingHotel> PendingHotels { get; set; }
 
         public DatabaseContext(DbContextOptions options) : base(options)
         {

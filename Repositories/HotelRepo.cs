@@ -15,6 +15,16 @@ namespace HotelMangementSystem.Repositories
         {
             this.context = context;
         }
+        public List<Hotel> GetHotels()
+        {
+            return context.Hotels.Where(b => b.IsDeleted == false).ToList();
+        }
+        public List<Hotel> GetHotelsByManagerId(string id)
+        {
+            return context.Hotels.Where(b => b.IsDeleted == false && b.ManagerId.Contains(id)).ToList();
+
+            this.context = context;
+        }
         public async Task<List<Hotel>> GetHotelsByCityAsync(string cityName, int page, int pageSize)
         {
             var query = context.Hotels

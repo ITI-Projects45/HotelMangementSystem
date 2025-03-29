@@ -1,4 +1,6 @@
-﻿namespace HotelMangementSystem.Repositories
+﻿using HotelMangementSystem.Models;
+
+namespace HotelMangementSystem.Repositories
 {
     public interface IGeneralRepo<T>
     {
