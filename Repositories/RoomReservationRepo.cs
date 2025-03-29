@@ -5,8 +5,15 @@ namespace HotelMangementSystem.Repositories
 {
     public class RoomReservationRepo : GeneralRepo<RoomReservation>, IRoomReservationRepo
     {
+        private readonly DatabaseContext context;
+
         public RoomReservationRepo(DatabaseContext context) : base(context)
         {
+            this.context = context;
+        }
+        public List<RoomReservation> GetRoomReservations()
+        {
+            return context.RoomReservations.ToList();
         }
     }
 }

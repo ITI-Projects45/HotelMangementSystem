@@ -6,6 +6,8 @@ namespace HotelMangementSystem.Repositories
     {
         public PendingHotel CheckIfExists(string HotelName, string ManagerID);
         public PendingHotel GetRequestByManagerID(string ManagerID);
+        public List<PendingHotel> GetPendingHotels();
+        public List<PendingHotel> GetDeniedHotels();
 
     }
 }

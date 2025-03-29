@@ -1,5 +1,8 @@
-﻿using HotelMangementSystem.Models.Database;
+﻿using System.Security.Principal;
+using HotelMangementSystem.Models;
+using HotelMangementSystem.Models.Database;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace HotelMangementSystem.Repositories
 {
@@ -21,6 +24,12 @@ namespace HotelMangementSystem.Repositories
             }
             return null;
         }
+
+        //public List<T> GetAll<T>() where T : IEntity
+        //{
+        //    return context.Set<T>().Where(entity => entity.IsDeleted == false).ToList();
+        //}
+
         public List<T> GetAll()
         {
             return context.Set<T>().ToList();

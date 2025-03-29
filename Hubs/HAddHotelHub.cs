@@ -22,9 +22,9 @@ namespace HotelMangementSystem.Hubs
         {
             string name = Context.User.Identity.Name;
             string id = Context.ConnectionId;
-            //ClientsId.Add(name, id);
+            ClientsId[name] = id;
 
-            Clients.All.SendAsync("CheckConnect", "test test");
+            Clients.All.SendAsync("CheckConnect", name, id);
 
             // ClientsId.Add(context.)
             return base.OnConnectedAsync();

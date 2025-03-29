@@ -16,7 +16,7 @@ namespace HotelMangementSystem.Repositories
         }
         public List<Review> getAllWithUser()
         {
-            return context.Reviews.Include("User").ToList();
+            return context.Reviews.Include("User").Where(r => r.IsDeleted == false).ToList();
 
         }
         public List<Review> getAllWithUserAndHotels()
@@ -25,5 +25,10 @@ namespace HotelMangementSystem.Repositories
 
             return reviews;
         }
+        public List<Review> GetReviews()
+        {
+            return context.Reviews.Where(b => b.IsDeleted == false).ToList();
+        }
+
     }
 }

@@ -26,6 +26,12 @@
             NotAvailable = 2
 
         }
+        public enum NewHotelRquestStatus
+        {
+            Pending = 1,
+            Accepted = 2,
+            Denied = 4,
+        }
 
 
     }
