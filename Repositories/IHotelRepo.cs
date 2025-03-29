@@ -7,5 +7,6 @@ namespace HotelMangementSystem.Repositories
         Task<List<Hotel>> GetHotelsByCityAsync(string cityName, int page, int pageSize);
         Task<int> GetTotalHotelsCountAsync(string cityName);
         Task<List<string>> GetAllCitiesAsync();
-    }
+        Task<Hotel> GetHotelByIdAsync(int id);
+        }
 }

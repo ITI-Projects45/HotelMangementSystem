@@ -37,6 +37,14 @@ namespace HotelMangementSystem.Controllers
 
             return View(hotelViewModels);
         }
+        public async Task<IActionResult> Hotel(int id)
+        {
+            Hotel hotel = await hotelRepo.GetHotelByIdAsync(id);
+            if (hotel == null) {
+                return NotFound();
+            }
+            return View("Hotel", hotel);
+        }
 
     }
 }

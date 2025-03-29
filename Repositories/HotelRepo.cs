@@ -51,5 +51,11 @@ namespace HotelMangementSystem.Repositories
                 .Distinct() 
                 .ToListAsync();
         }
+        public async Task<Hotel> GetHotelByIdAsync(int id)
+        {
+            return await context.Hotels
+                .Include(h => h.Rooms)
+                .FirstOrDefaultAsync(h => h.Id == id);
+        }
     }
 }
