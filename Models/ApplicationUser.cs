@@ -8,5 +8,6 @@ namespace HotelMangementSystem.Models
         public Hotel? Hotel { get; set; }
         public List<Reservation>? Reservations { get; set; }
         public UserReview? UserReview { get; set; }
+
     }
 }
