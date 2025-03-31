@@ -16,14 +16,16 @@ namespace HotelMangementSystem.Controllers
         private readonly IHotelRepo hotelRepo;
         private readonly IHubContext<HAddHotelHub> addHotelHub;
         private readonly IPendingHotelRepo pendingHotelRepo;
+        private readonly RoleManager<ApplicationRole> roleManager;
 
-        public HotelAdminController(ICityRepo cityRepo, UserManager<ApplicationUser> userManager, IHotelRepo hotelRepo, IHubContext<HAddHotelHub> addHotelHub, IPendingHotelRepo pendingHotelRepo)
+        public HotelAdminController(ICityRepo cityRepo, UserManager<ApplicationUser> userManager, IHotelRepo hotelRepo, IHubContext<HAddHotelHub> addHotelHub, IPendingHotelRepo pendingHotelRepo, RoleManager<ApplicationRole> roleManager)
         {
             this.cityRepo = cityRepo;
             this.userManager = userManager;
             this.hotelRepo = hotelRepo;
             this.addHotelHub = addHotelHub;
             this.pendingHotelRepo = pendingHotelRepo;
+            this.roleManager = roleManager;
         }
 
         [HttpGet]
@@ -192,12 +194,18 @@ namespace HotelMangementSystem.Controllers
             };
 
 
+            ApplicationUser user = await userManager.FindByIdAsync(newHotelFromReq.ManagerId);
             hotelRepo.Insert(newHotel);
             hotelRepo.Save();
             newHotelFromReq.IsDeleted = true;
+
+            if (!User.IsInRole("HotelAdmin"))
+            {
+                await userManager.AddToRoleAsync(user, "HotelAdmin");
+            }
+
             pendingHotelRepo.Update(newHotelFromReq);
             pendingHotelRepo.Save();
-            ApplicationUser user = await userManager.FindByIdAsync(newHotelFromReq.ManagerId);
 
             string UserConnection = HAddHotelHub.ClientsId[$"{user?.UserName}"];
             ViewBag.userConnection = UserConnection;

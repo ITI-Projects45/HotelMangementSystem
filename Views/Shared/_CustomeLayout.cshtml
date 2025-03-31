@@ -73,27 +73,29 @@
                                     <img id="profilePhoto"
                                     src="/images/user-profile-circle-solid.svg"
                                     class="profile-navbar"
-                                    alt="" /><span id="count" class="text-danger">@ViewBag.PendingHotelNumberNotification</span>
+                                    alt="" />
+                                    @if (User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
+                                    {   
+                                    <span id="count" class="text-danger">@ViewBag.PendingHotelNumberNotification</span>
+                                    }
                                     <div class="cdropdown-content">
                                         <p class="nav-link text-dark">Welcome , @(User.Identity.IsAuthenticated?@User.Identity.Name: "Guest")
 
                                         </p>
 
 
-                                        <a href="#">Profile</a>
-                                        @if (User.IsInRole("TopAdmin"))
+                                        @if (User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
                                         {
                                             <a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="PendingHotels">Pending Hotels <span id="count" class="text-danger">@ViewBag.PendingHotelNumberNotification</span></a>
 
-
-
-                                        }else
-                                        {
-
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="AddNewHotel">Become Hotel Manager</a>
                                         }
-                                        @if (!User.IsInRole("TopAdmin"))
+
+                                        
+                                        @if (!User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
                                         {
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="AddNewHotel">Become Hotel Manager</a>
+                                        
+                                      
                                             <a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="MyHotels">My Hotels</a>
                                         }
 
@@ -102,8 +104,11 @@
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AddNewRole">Add New Role</a>
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AssignRole">Assign Role</a>
                                         }
+           
                                         @if (User.Identity.IsAuthenticated)
                                         {
+                                            <a href="#">Profile</a>
+
 
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
 
@@ -143,26 +148,32 @@
                             Far far away, behind the word mountains, far from the countries
                             Vokalia and Consonantia, there live the blind texts.
                         </p>
-                        <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                            <li class="ftco-animate">
-                                <a href="#"><span class="icon-twitter"></span></a>
-                            </li>
-                            <li class="ftco-animate">
-                                <a href="#"><span class="icon-facebook"></span></a>
-                            </li>
-                            <li class="ftco-animate">
-                                <a href="#"><span class="icon-instagram"></span></a>
-                            </li>
-                        </ul>
+                        @* <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5"> *@
+                        @*     <li class="ftco-animate"> *@
+                        @*         <a href="#"><span class="icon-twitter"></span></a> *@
+                        @*     </li> *@
+                        @*     <li class="ftco-animate"> *@
+                        @*         <a href="#"><span class="icon-facebook"></span></a> *@
+                        @*     </li> *@
+                        @*     <li class="ftco-animate"> *@
+                        @*         <a href="#"><span class="icon-instagram"></span></a> *@
+                        @*     </li> *@
+                        @* </ul> *@
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="ftco-footer-widget mb-4 ml-md-5">
                         <h2 class="ftco-heading-2">Useful Links</h2>
                         <ul class="list-unstyled">
-                            <li><a href="#" class="py-2 d-block">Hotels</a></li>
-                            <li><a href="#" class="py-2 d-block">About Us</a></li>
-                            <li><a href="#" class="py-2 d-block">Contact Us</a></li>
+                            <li>
+                                <                        <a asp-action="Index" asp-controller="Hotels" class="nav-link">Hotels</a>
+                            </li>
+                            <li>
+                                <a asp-action="About" asp-controller="Home" class="nav-link">About Us</a>
+                            </li>
+                            <li>
+                                <a asp-action="About" asp-controller="Home" class="nav-link">About Us</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -175,12 +186,12 @@
                                     <span class="icon icon-map-marker"></span><span class="text">ITI , Asyut branch , Asyut , Egypt</span>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a >
                                         <span class="icon icon-phone"></span><span class="text">010011012015</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a >
                                         <span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span>
                                     </a>
                                 </li>
@@ -196,9 +207,15 @@
                         <script>
                             document.write(new Date().getFullYear());
                         </script>
-                        All rights reserved | This Project is made with
+                        All rights reserved | This Project is made by
                         <i class="icon-heart color-danger" aria-hidden="true"></i> by
-                        <a href="https://colorlib.com" target="_blank">Mohamed Ehab , Mohamed Abd Eltawab and Santi Osama</a>
+
+                        <a href="https://www.linkedin.com/in/iamhobv/" target="_blank">Mohamed Ehab </a>
+                        <span> , </span>
+                        <a href="https://www.linkedin.com/in/mohammedmabedltawab/" target="_blank"> Mohamed Abd Eltawab</a>
+                        <span> and </span>
+                        <a href="https://www.linkedin.com/in/santy-osama/" target="_blank"> Santi Osama</a>
+
                     </p>
                 </div>
             </div>
@@ -253,6 +270,7 @@
           
        </script>
     }  
+  
     @if (User.Identity.Name == @ViewBag.userConnection)
     {
        <script>
@@ -284,6 +302,7 @@
           
        </script>
     }
+
 
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery-migrate-3.0.1.min.js"></script>

@@ -49,7 +49,12 @@ namespace HotelMangementSystem.Controllers
                         {
                             Name = "Guest"
                         };
+                        ApplicationRole HotelAdmin = new ApplicationRole()
+                        {
+                            Name = "HotelAdmin"
+                        };
 
+                        IdentityResult HotelAdminResult = await roleManager.CreateAsync(HotelAdmin);
                         IdentityResult GuestRoleResult = await roleManager.CreateAsync(GuestRole);
                         ApplicationRole role = new ApplicationRole()
                         {
@@ -57,6 +62,7 @@ namespace HotelMangementSystem.Controllers
                         };
 
                         IdentityResult roleResult = await roleManager.CreateAsync(role);
+
 
 
                         if (roleResult.Succeeded)
@@ -151,6 +157,7 @@ namespace HotelMangementSystem.Controllers
         #region Logout
         public async Task<IActionResult> Logout()
         {
+
 
 
             await signInManager.SignOutAsync();
