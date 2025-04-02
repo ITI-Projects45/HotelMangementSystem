@@ -1,0 +1,16 @@
+﻿
+@model RoomViewModel
+<form asp-action="CreateRoom" method="post">
+    <input type="hidden" asp-for="HotelId" />
+    <label>Room Number:</label>
+    <input asp-for="RoomNumber" class="form-control" />
+    <label>Description:</label>
+    <input asp-for="Description" class="form-control" />
+    <label>Room Type:</label>
+    <input asp-for="RoomType" class="form-control" />
+    <label>Capacity:</label>
+    <input asp-for="Capacity" class="form-control" />
+    <label>Price Per Night:</label>
+    <input asp-for="PricePerNight" class="form-control" />
+    <button type="submit" class="btn btn-primary">Add Room</button>
+</form>

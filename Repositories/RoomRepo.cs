@@ -1,5 +1,6 @@
 ﻿using HotelMangementSystem.Models;
 using HotelMangementSystem.Models.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelMangementSystem.Repositories
 {
@@ -15,5 +16,11 @@ namespace HotelMangementSystem.Repositories
         {
             return context.Rooms.Where(b => b.IsDeleted == false).ToList();
         }
+        public Room GetById(int id)
+        {
+            return context.Rooms.Include(r => r.Hotel).Include(r=>r.HotelId).FirstOrDefault(r => r.Id == id);
+        }
+
+
     }
 }

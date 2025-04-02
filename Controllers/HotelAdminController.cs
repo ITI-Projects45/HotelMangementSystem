@@ -2,6 +2,7 @@
 using HotelMangementSystem.Models;
 using HotelMangementSystem.Repositories;
 using HotelMangementSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -117,9 +118,6 @@ namespace HotelMangementSystem.Controllers
                         {
                             ViewBag.AlreadyAdded = true;
                         }
-
-
-
                     }
                     else
                     {
@@ -269,6 +267,137 @@ namespace HotelMangementSystem.Controllers
             }
             return NotFound();
         }
+
+        // Actions To Allow Manger To Add , Update and Delete Rooms in their Hotels
+
+        // Add Room 
+        [HttpGet]
+        [Authorize(Roles = "HotelManager")]
+
+        public async Task<IActionResult> CreateRoom(int hotelId)
+        {
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var hotel = hotelRepo.GetById(hotelId);
+            if (hotel == null || hotel.ManagerId != user.Id)
+            {
+                return Unauthorized();
+            }
+
+            ViewBag.HotelId = hotelId;
+            return View();
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "HotelManager")]
+
+        public async Task<IActionResult> CreateRoom(RoomViewModel model)
+        {
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var hotel = hotelRepo.GetById(model.HotelId);
+
+            if (hotel == null || hotel.ManagerId != user.Id)
+            {
+                return Unauthorized();
+            }
+            if (ModelState.IsValid)
+            {
+                Room newRoom = new Room
+                {
+                    RoomNumber = model.RoomNumber,
+                    RoomType = (RoomTypes)int.Parse(model.RoomType),
+                    Description = model.Description,
+                    Capacity = model.Capacity,
+                    PricePerNight = model.PricePerNight,
+                    HotelId = model.HotelId
+                };
+                hotel.Rooms.Add(newRoom);
+                hotelRepo.Save();
+                return RedirectToAction("MyHotel", new { id = model.HotelId });
+            }
+            ViewBag.HotelId = model.HotelId;
+            return View(model);
+        }
+        // Edit Room 
+        [HttpGet]
+        [Authorize(Roles = "HotelManager")]
+
+        public async Task<IActionResult> EditRoom(int id)
+        {
+            var room = await hotelRepo.GetRoomByIdAsync(id);
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var hotel = await hotelRepo.GetHotelByIdAsync(room.HotelId);
+
+            if (room == null || hotel.ManagerId != user.Id)
+            {
+                return Unauthorized();
+            }
+
+            var model = new RoomViewModel
+            {
+                Id = room.Id,
+                RoomNumber = room.RoomNumber,
+                RoomType = room.RoomType.ToString(),
+                Description = room.Description,
+                Capacity = room.Capacity,
+                PricePerNight = room.PricePerNight,
+                HotelId = room.HotelId
+            };
+
+            return View(model);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "HotelManager")]
+
+        public async Task<IActionResult> EditRoom(RoomViewModel model)
+        {
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            Room room = await hotelRepo.GetRoomByIdAsync(model.Id);
+            var hotel = await hotelRepo.GetHotelByIdAsync(room.HotelId);
+
+            if (room == null || hotel.ManagerId != user.Id)
+            {
+                return Unauthorized();
+            }
+
+            if (ModelState.IsValid)
+            {
+                room.RoomNumber = model.RoomNumber;
+                room.RoomType = (RoomTypes)int.Parse(model.RoomType);
+                room.Capacity = model.Capacity;
+                room.Description = model.Description;
+                room.PricePerNight = model.PricePerNight;
+
+                hotelRepo.Save();
+
+                return RedirectToAction("MyHotel", new { id = room.HotelId });
+            }
+
+            return View(model);
+        }
+
+        // Delete Room 
+        [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "HotelManager")]
+
+        public async Task<IActionResult> DeleteRoom(int id)
+        {
+            var room = await hotelRepo.GetRoomByIdAsync(id);
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var hotel = hotelRepo.GetById(room.HotelId);
+
+            if (room == null || hotel.ManagerId != user.Id)
+            {
+                return Unauthorized();
+            }
+
+            hotelRepo.DeleteRoom(room);
+            hotelRepo.Save();
+
+            return RedirectToAction("MyHotel", new { id = room.HotelId });
+        }
+
+
+
 
     }
 }
