@@ -14,14 +14,16 @@ public class HomeController : Controller
     private readonly IReviewRepo reviewRepo;
     private readonly IPendingHotelRepo pendingHotelRepo;
     private readonly IHubContext<HAddHotelHub> addHotelHub;
+    private readonly ICityRepo cityRepo;
 
-    public HomeController(ILogger<HomeController> logger, IHotelRepo hotelRepo, IReviewRepo reviewRepo, IPendingHotelRepo pendingHotelRepo, IHubContext<HAddHotelHub> addHotelHub)
+    public HomeController(ILogger<HomeController> logger, IHotelRepo hotelRepo, IReviewRepo reviewRepo, IPendingHotelRepo pendingHotelRepo, ICityRepo cityRepo, IHubContext<HAddHotelHub> addHotelHub)
     {
         _logger = logger;
         this.hotelRepo = hotelRepo;
         this.reviewRepo = reviewRepo;
         this.pendingHotelRepo = pendingHotelRepo;
         this.addHotelHub = addHotelHub;
+        this.cityRepo = cityRepo;
     }
 
     public IActionResult Index()
@@ -30,6 +32,9 @@ public class HomeController : Controller
         ViewBag.hotels = hotels;
         List<Review> reviews = reviewRepo.getAllWithUserAndHotels();
         ViewBag.reviews = reviews;
+        List<City> cities = cityRepo.GetCities();
+        ViewBag.cities = cities;
+
         ViewBag.PendingHotelNumberNotification = pendingHotelRepo.GetPendingHotels().Count();
 
         return View();

@@ -18,17 +18,17 @@ namespace HotelMangementSystem.Hubs
             this.context = context;
         }
 
-        public override Task OnConnectedAsync()
-        {
-            string name = Context.User.Identity.Name;
-            string id = Context.ConnectionId;
-            ClientsId[name] = id;
+        //public override Task OnConnectedAsync()
+        //{
+        //    string name = Context.User.Identity.Name;
+        //    string id = Context.ConnectionId;
+        //    ClientsId[name] = id;
 
-            Clients.All.SendAsync("CheckConnect", name, id);
+        //    Clients.All.SendAsync("CheckConnect", name, id);
 
-            // ClientsId.Add(context.)
-            return base.OnConnectedAsync();
-        }
+        //    // ClientsId.Add(context.)
+        //    return base.OnConnectedAsync();
+        //}
         //public void SendRequest(string name, string description, int starRatig, string location, string phoneNumber, int numberOfRooms, string managerId, int cityId)
         //{
 
