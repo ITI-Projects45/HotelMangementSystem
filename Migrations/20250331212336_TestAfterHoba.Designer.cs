@@ -4,6 +4,7 @@ using HotelMangementSystem.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelMangementSystem.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250331212336_TestAfterHoba")]
+    partial class TestAfterHoba
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,9 +190,6 @@ namespace HotelMangementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HotelStatus")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -219,64 +219,10 @@ namespace HotelMangementSystem.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("ManagerId");
+                    b.HasIndex("ManagerId")
+                        .IsUnique();
 
                     b.ToTable("Hotels");
-<<<<<<< HEAD
-                });
-
-            modelBuilder.Entity("HotelMangementSystem.Models.PendingHotel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("HotelStatus")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ManagerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumberOfRooms")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StarRatig")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("ManagerId");
-
-                    b.ToTable("PendingHotels");
-=======
->>>>>>> origin/Santy
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Reservation", b =>
@@ -573,27 +519,8 @@ namespace HotelMangementSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("HotelMangementSystem.Models.ApplicationUser", "Manager")
-                        .WithMany("Hotel")
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("Manager");
-                });
-
-            modelBuilder.Entity("HotelMangementSystem.Models.PendingHotel", b =>
-                {
-                    b.HasOne("HotelMangementSystem.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HotelMangementSystem.Models.ApplicationUser", "Manager")
-                        .WithMany()
-                        .HasForeignKey("ManagerId")
+                        .WithOne("Hotel")
+                        .HasForeignKey("HotelMangementSystem.Models.Hotel", "ManagerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

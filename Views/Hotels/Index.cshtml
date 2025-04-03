@@ -31,6 +31,16 @@
                     }
                 </select>
             </form>
+
+            <!-- Sorting filter -->
+            <form method="get" class="col-md-6">
+                <label for="sortOrder">Sort by Star Rating:</label>
+                <select id="sortOrder" name="sortOrder" class="form-control" onchange="this.form.submit()">
+                    <option value="desc" selected="@(ViewBag.SortOrder == "desc" ? "selected" : null)">High to Low</option>
+                    <option value="asc" selected="@(ViewBag.SortOrder == "asc" ? "selected" : null)">Low to High</option>
+                </select>
+                <input type="hidden" name="cityName" value="@ViewBag.CityName" />
+            </form>
         </div>
         <br />
 
@@ -53,6 +63,22 @@
                                     <div><a href="/Hotels?cityName=@hotel.Location"><span class="icon-map-marker"></span> @hotel.Location</a></div>
                                     <div><a href="tel:@hotel.PhoneNumber"><span class="icon-phone"></span> @hotel.PhoneNumber</a></div>
                                 </div>
+                                <h3 class="heading"><a href="#">@hotel.Name</a></h3>
+                                <p>@hotel.Description</p>
+
+                              <!-- **************** STARS ****************  -->
+                                <div class="star-rating">
+                                    @for (int i = 0; i < hotel.StarRating; i++)
+                                    {
+                                        <span style="color: gold; font-size: 1.5rem;">&#9733;</span> 
+                                    }
+                                    @for (int i = hotel.StarRating; i < 5; i++)
+                                    {
+                                        <span style="color: gray; font-size: 1.5rem;">&#9733;</span> 
+                                    }
+                                </div>
+
+                                <a href="/Hotels/Hotel/@hotel.Id" class="btn btn-secondary rounded mt-2">Details</a>
                                 <h3 class="heading"><a href="/Hotels/Hotel/@hotel.Id">@hotel.Name </a></h3>
                                 @for (int i = 0; i < hotel.StarRatig; i++)
                                 {
@@ -63,19 +89,18 @@
                             </div>
                         </div>
                     </div>
-
                 }
             }
         </div>
 
-        <!--Pagination -->
+        <!-- Pagination -->
         <div class="row mt-5">
             <div class="col text-center">
                 <div class="block-27">
                     <ul>
                         @if (ViewBag.CurrentPage > 1)
                         {
-                            <li><a href="?cityName=@ViewBag.CityName&page=@(ViewBag.CurrentPage - 1)">&lt;</a></li>
+                            <li><a href="?cityName=@ViewBag.CityName&sortOrder=@ViewBag.SortOrder&page=@(ViewBag.CurrentPage - 1)">&lt;</a></li>
                         }
 
                         @for (int i = 1; i <= ViewBag.TotalPages; i++)
@@ -86,13 +111,13 @@
                             }
                             else
                             {
-                                <li><a href="?cityName=@ViewBag.CityName&page=@i">@i</a></li>
+                                <li><a href="?cityName=@ViewBag.CityName&sortOrder=@ViewBag.SortOrder&page=@i">@i</a></li>
                             }
                         }
 
                         @if (ViewBag.CurrentPage < ViewBag.TotalPages)
                         {
-                            <li><a href="?cityName=@ViewBag.CityName&page=@(ViewBag.CurrentPage + 1)">&gt;</a></li>
+                            <li><a href="?cityName=@ViewBag.CityName&sortOrder=@ViewBag.SortOrder&page=@(ViewBag.CurrentPage + 1)">&gt;</a></li>
                         }
                     </ul>
                 </div>

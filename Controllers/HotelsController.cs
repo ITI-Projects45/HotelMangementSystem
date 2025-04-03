@@ -29,16 +29,25 @@ namespace HotelMangementSystem.Controllers
                 StarRatig = h.StarRatig,
 
             }).ToList();
+            if (sortOrder == "asc")
+            {
+                hotelViewModels = hotelViewModels.OrderBy(h => h.StarRating).ToList();
+            }
+            else
+            {
+                hotelViewModels = hotelViewModels.OrderByDescending(h => h.StarRating).ToList();
+            }
 
             int totalHotels = await hotelRepo.GetTotalHotelsCountAsync(cityName);
             ViewBag.Cities = await hotelRepo.GetAllCitiesAsync();
-
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = (int)Math.Ceiling((double)totalHotels / pageSize);
             ViewBag.CityName = cityName;
+            ViewBag.SortOrder = sortOrder;
 
             return View(hotelViewModels);
         }
+
         public async Task<IActionResult> Hotel(int id)
         {
             Hotel hotel = await hotelRepo.GetHotelByIdAsync(id);
