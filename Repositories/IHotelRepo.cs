@@ -12,7 +12,8 @@ namespace HotelMangementSystem.Repositories
         Task<List<string>> GetAllCitiesAsync();
         Task<Hotel> GetHotelByIdAsync(int id);
         List<Hotel> GetFourTopRatedRandomizedHotels();
-       Task <Room> GetRoomByIdAsync(int id);
-        void DeleteRoom(Room room);
+        Task<Room> GetRoomByIdAsync(int id);
+        Task DeleteRoom(Room room, int HotelId);
+        Task<Hotel> GetHotelWithRoomsAsync(int id);
     }
 }

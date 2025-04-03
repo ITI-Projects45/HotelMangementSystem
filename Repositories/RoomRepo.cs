@@ -1,5 +1,6 @@
 ﻿using HotelMangementSystem.Models;
 using HotelMangementSystem.Models.Database;
+using HotelMangementSystem.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelMangementSystem.Repositories
@@ -18,7 +19,12 @@ namespace HotelMangementSystem.Repositories
         }
         public Room GetById(int id)
         {
-            return context.Rooms.Include(r => r.Hotel).Include(r=>r.HotelId).FirstOrDefault(r => r.Id == id);
+            return context.Rooms.Include(r => r.Hotel).Include(r => r.HotelId).FirstOrDefault(r => r.Id == id);
+        }
+        public void SoftDelete(Room room)
+        {
+            room.IsDeleted = true;
+            room.roomStatus = Enums.RoomStatuses.NotAvailable;
         }
 
 
