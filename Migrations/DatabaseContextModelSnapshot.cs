@@ -222,7 +222,6 @@ namespace HotelMangementSystem.Migrations
                     b.HasIndex("ManagerId");
 
                     b.ToTable("Hotels");
-<<<<<<< HEAD
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.PendingHotel", b =>
@@ -275,8 +274,6 @@ namespace HotelMangementSystem.Migrations
                     b.HasIndex("ManagerId");
 
                     b.ToTable("PendingHotels");
-=======
->>>>>>> origin/Santy
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Reservation", b =>
