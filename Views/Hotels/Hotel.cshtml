@@ -17,6 +17,39 @@
 	</div>
 </div>
 
+
+<!-- Hotel Details Section -->
+<section class="ftco-section hero-wrap" style="background-image: url('/images/bg_3.jpg');">
+	<div class="container-fluid">
+		<div class="row justify-content-center mb-5 pb-3">
+			<div class="col-md-7 heading-section text-center ftco-animate">
+				<h2 class="mb-4">@Model.Name</h2>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="hotel-details p-5 bg-white rounded-lg shadow">
+					<p class="text-muted"><i class="icon-map-marker"></i> <strong>Location:</strong> @Model.Location</p>
+					<p><strong>Description:</strong> @Model.Description</p>
+					<p>
+						<strong>Star Rating:</strong>
+						<span class="text-warning">
+							@for (int i = 0; i < Model.StarRatig; i++)
+							{
+								<i class="ion-ios-star"></i>
+							}
+						</span>
+					</p>
+					<p><strong>Status:</strong> <span class="badge badge-success">@Model.HotelStatus</span></p>
+					<p><strong>Phone Number:</strong> <a href="tel:@Model.PhoneNumber">@Model.PhoneNumber</a></p>
+					<p><strong>Number of Rooms:</strong> @Model.NumberOfRooms</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
 <section class="ftco-section ftco-no-pb ftco-room">
 	<div class="container-fluid px-0">
 		<div class="row no-gutters justify-content-center mb-5 pb-3">

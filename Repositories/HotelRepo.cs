@@ -72,5 +72,26 @@ namespace HotelMangementSystem.Repositories
             List<Hotel> hotels = context.Hotels.Where(h => h.IsDeleted == false && h.StarRatig > 4).OrderBy(h => Guid.NewGuid()).Take(4).ToList();
             return hotels;
         }
+
+        public async Task DeleteRoom(Room room, int HotelId)
+        {
+            Hotel hotel = await GetHotelWithRoomsAsync(HotelId);
+            hotel.Rooms.Remove(room);
+        }
+
+        public async Task<Room> GetRoomByIdAsync(int id)
+        {
+            return await context.Rooms.Include(r => r.Hotel).FirstOrDefaultAsync(r => r.Id == id);
+        }
+
+        public async Task<Hotel> GetHotelWithRoomsAsync(int id)
+        {
+            return await context.Hotels
+              .Include(h => h.Rooms.Where(r => r.IsDeleted == false))
+              .FirstOrDefaultAsync(h => h.Id == id && h.IsDeleted == false);
+        }
+
+
+
     }
 }

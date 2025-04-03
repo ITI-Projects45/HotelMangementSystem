@@ -3,6 +3,8 @@ using HotelMangementSystem.Models.Database;
 using HotelMangementSystem.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using static HotelMangementSystem.Models.Enums.Enums;
+using HotelMangementSystem.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelMangementSystem.Repositories
 {
@@ -37,6 +39,17 @@ namespace HotelMangementSystem.Repositories
                 return new List<Room>(); 
             }
         }
+
+        public Room GetById(int id)
+        {
+            return context.Rooms.Include(r => r.Hotel).Include(r => r.HotelId).FirstOrDefault(r => r.Id == id);
+        }
+        public void SoftDelete(Room room)
+        {
+            room.IsDeleted = true;
+            room.roomStatus = Enums.RoomStatuses.NotAvailable;
+        }
+
 
     }
 }
