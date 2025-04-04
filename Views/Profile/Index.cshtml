@@ -1,0 +1,20 @@
+﻿@model HotelMangementSystem.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "My Profile";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="card p-3">
+    @if (!string.IsNullOrEmpty(Model.ProfilePictureURL))
+    {
+        <img src="@Model.ProfilePictureURL" width="150" class="mb-3" />
+    }
+
+    <p><strong>Full Name:</strong> @Model.UserName</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+
+    <a class="btn btn-primary mt-2" href="@Url.Action("Edit", "Profile")">Edit Profile</a>
+</div>

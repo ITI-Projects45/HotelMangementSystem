@@ -53,6 +53,7 @@ namespace HotelMangementSystem
             builder.Services.AddScoped<IRoomReservationRepo, RoomReservationRepo>();
             builder.Services.AddScoped<IUserReviewRepo, UserReviewRepo>();
             builder.Services.AddScoped<IPendingHotelRepo, PendingHotelRepo>();
+            builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 
 
