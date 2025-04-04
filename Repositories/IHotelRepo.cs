@@ -1,4 +1,5 @@
 ﻿using HotelMangementSystem.Models;
+using Microsoft.Data.SqlClient;
 
 namespace HotelMangementSystem.Repositories
 {
@@ -15,5 +16,7 @@ namespace HotelMangementSystem.Repositories
         Task<Room> GetRoomByIdAsync(int id);
         Task DeleteRoom(Room room, int HotelId);
         Task<Hotel> GetHotelWithRoomsAsync(int id);
+        Task<List<Hotel>> GetHotelsByCityOrderdByStartsAsync(string cityName, int page, int pageSize, string sortOrder = "desc");
+
     }
 }

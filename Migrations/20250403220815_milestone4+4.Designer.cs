@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelMangementSystem.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-<<<<<<<< HEAD:Migrations/20250402182409_InitialTest.Designer.cs
-    [Migration("20250402182409_InitialTest")]
-    partial class InitialTest
-========
-    [Migration("20250403213414_init")]
-    partial class init
->>>>>>>> Test-All-Features-together-29/3/2025:Migrations/20250403213414_init.Designer.cs
+    [Migration("20250403220815_milestone4+4")]
+    partial class milestone44
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

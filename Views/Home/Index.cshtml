@@ -170,14 +170,17 @@
                                             <a href="/Hotels/Hotel/ @review.Hotel?.Id" class="text-dark-emphasis">
                                                 @review.Hotel?.Name
                                             </a>
-                                           
-                                            <span>
+
+                                            <div class="star-rating">
                                                 @for (int i = 0; i < @review.Hotel.StarRatig; i++)
                                                 {
-                                                    <img src="/images/star.png" style="width:18px; display:inline"/>
+                                                    <span style="color: gold; font-size: 1.5rem;">&#9733;</span>
                                                 }
-
-                                               </span>
+                                                @for (int i = @review.Hotel.StarRatig; i < 5; i++)
+                                                {
+                                                    <span style="color: gray; font-size: 1.5rem;">&#9733;</span>
+                                                }
+                                            </div>
                                     </p>
                                 </div>
                                 <div class="d-flex">
@@ -220,12 +223,16 @@
                             <div class="text p-4 text-center">
                                 <h3 class="mb-3"><a href="/Hotels/Hotel/@hotel.Id">@hotel.Name</a></h3>
 
-                                <p class="star mb-3">
-                                    @for (int i = 0; i < hotel.StarRatig; i++)
+                                <div class="star-rating">
+                                    @for (int i = 0; i < @hotel.StarRatig; i++)
                                     {
-                                        <img src="/images/star.png" style="width:2em" />
+                                        <span style="color: gold; font-size: 1.5rem;">&#9733;</span>
                                     }
-                                </p>
+                                    @for (int i = @hotel.StarRatig; i < 5; i++)
+                                    {
+                                        <span style="color: gray; font-size: 1.5rem;">&#9733;</span>
+                                    }
+                                </div>
                                
                                 <p class="pt-1">
                                     <a href="/Hotels/Hotel/@hotel.Id"

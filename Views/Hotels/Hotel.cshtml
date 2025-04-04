@@ -3,19 +3,19 @@
 	ViewData["Title"] = "Hotel";
 }
 
-<div class="hero-wrap" style="background-image: url('/images/bg_3.jpg');">
-	<div class="overlay"></div>
-	<div class="container">
-		<div class="row no-gutters slider-text d-flex align-itemd-center justify-content-center">
-			<div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
-				<div class="text">
-					<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/#">Home</a></span> <span class="mr-2"><a href="/Hotels">Hotels</a></span> <span>@Model.Name</span></p>
-					<h1 class="mb-4 bread">@Model.Name</h1>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+@* <div class="hero-wrap" style="background-image: url('/images/bg_3.jpg');"> *@
+@* 	<div class="overlay"></div> *@
+@* 	<div class="container"> *@
+@* 		<div class="row no-gutters slider-text d-flex align-itemd-center justify-content-center"> *@
+@* 			<div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center"> *@
+@* 				<div class="text"> *@
+@* 					<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/#">Home</a></span> <span class="mr-2"><a href="/Hotels">Hotels</a></span> <span>@Model.Name</span></p> *@
+@* 					<h1 class="mb-4 bread">@Model.Name</h1> *@
+@* 				</div> *@
+@* 			</div> *@
+@* 		</div> *@
+@* 	</div> *@
+@* </div> *@
 
 
 <!-- Hotel Details Section -->
@@ -23,14 +23,13 @@
 	<div class="container-fluid">
 		<div class="row justify-content-center mb-5 pb-3">
 			<div class="col-md-7 heading-section text-center ftco-animate">
-				<h2 class="mb-4">@Model.Name</h2>
+				<h2 class="mb-4 mt-5">@Model.Name</h2>
 			</div>
 		</div>
 		<div class="row justify-content-center">
 			<div class="col-md-8">
 				<div class="hotel-details p-5 bg-white rounded-lg shadow">
 					<p class="text-muted"><i class="icon-map-marker"></i> <strong>Location:</strong> @Model.Location</p>
-					<p><strong>Description:</strong> @Model.Description</p>
 					<p>
 						<strong>Star Rating:</strong>
 						<span class="text-warning">
@@ -40,9 +39,11 @@
 							}
 						</span>
 					</p>
-					<p><strong>Status:</strong> <span class="badge badge-success">@Model.HotelStatus</span></p>
+					<p><strong>Description:</strong> @Model.Description</p>
+					@* <p><strong>Status:</strong> <span class="badge badge-success">@Model.HotelStatus</span></p> *@
 					<p><strong>Phone Number:</strong> <a href="tel:@Model.PhoneNumber">@Model.PhoneNumber</a></p>
-					<p><strong>Number of Rooms:</strong> @Model.NumberOfRooms</p>
+					@* <p><strong>Phone Number:</strong> <a href="tel:@Model.PhoneNumber">@Model.</a></p> *@
+					@* <p><strong>Number of Rooms:</strong> @Model.NumberOfRooms</p> *@
 				</div>
 			</div>
 		</div>

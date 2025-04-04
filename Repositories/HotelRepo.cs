@@ -1,5 +1,6 @@
 ﻿using HotelMangementSystem.Models;
 using HotelMangementSystem.Models.Database;
+using HotelMangementSystem.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +70,7 @@ namespace HotelMangementSystem.Repositories
         }
         public List<Hotel> GetFourTopRatedRandomizedHotels()
         {
-            List<Hotel> hotels = context.Hotels.Where(h => h.IsDeleted == false && h.StarRatig > 4).OrderBy(h => Guid.NewGuid()).Take(4).ToList();
+            List<Hotel> hotels = context.Hotels.Where(h => h.IsDeleted == false && h.StarRatig >= 4).OrderBy(h => Guid.NewGuid()).Take(4).ToList();
             return hotels;
         }
 
@@ -91,7 +92,50 @@ namespace HotelMangementSystem.Repositories
               .FirstOrDefaultAsync(h => h.Id == id && h.IsDeleted == false);
         }
 
+        public async Task<List<Hotel>> GetHotelsByCityOrderdByStartsAsync(string cityName, int page, int pageSize, string sortOrder = "desc")
+        {
 
+            IQueryable<Hotel> hotels = null;
+
+            if (sortOrder == "asc")
+            {
+
+                hotels = context.Hotels
+               .Include(h => h.City).OrderBy(h => h.StarRatig)
+               .AsNoTracking();
+                //hotelViewModels = hotelViewModels.OrderBy(h => h.StarRating).ToList();
+
+            }
+            else
+            {
+                hotels = context.Hotels
+               .Include(h => h.City).OrderByDescending(h => h.StarRatig)
+               .AsNoTracking();
+                //hotelViewModels = hotelViewModels.OrderByDescending(h => h.StarRating).ToList();
+            }
+
+
+
+
+
+
+
+
+
+            // var query = context.Hotels
+            //.Include(h => h.City)
+            //.AsNoTracking();
+
+            if (!string.IsNullOrEmpty(cityName))
+            {
+                hotels = hotels.Where(h => h.City.Name == cityName);
+            }
+
+            return await hotels
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
 
     }
 }

@@ -3,7 +3,7 @@
 <div class="hero">
     <section class="home-slider owl-carousel stop-padding">
         <div class="slider-item"
-             style="background-image: url(images/hotel1.jpg)">
+             style="background-image: url(/images/hotel1.jpg)">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text align-items-center justify-content-end">
@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div class="slider-item" style="background-image: url(images/bg_2.jpg)">
+        <div class="slider-item" style="background-image: url(/images/bg_2.jpg)">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text align-items-center justify-content-end">
@@ -34,9 +34,10 @@
 </div>
 <partial name="_SearchRooms" />
 
-<h2>Available Rooms</h2>
+@* <h2>Available Rooms</h2> *@
+
 <div class="container">
-    <h2>Available Rooms</h2>
+    <h2 class=" mb-3">Available Rooms</h2>
 
     @if (Model.Any())
     {
@@ -47,11 +48,22 @@
                     <div class="card">
                         <img src="/images/room-1.jpg" class="card-img-top" alt="Room Image">
                         <div class="card-body">
-                            <h5 class="card-title">Room Number: @room.RoomNumber</h5>
-                            <p class="card-text">Type: @room.RoomType</p>
-                            <p class="card-text">Hotel: @room.Hotel.Name</p>
+                            <h5 class="card-title">Hotel: @room.Hotel.Name</h5>
+                            <div class="star-rating">
+                                @for (int i = 0; i < @room.Hotel.StarRatig; i++)
+                                {
+                                    <span style="color: gold; font-size: 1.5rem;">&#9733;</span>
+                                }
+                                @for (int i = @room.Hotel.StarRatig; i < 5; i++)
+                                {
+                                    <span style="color: gray; font-size: 1.5rem;">&#9733;</span>
+                                }
+                            </div>
+                            <p class="card-text">Price per night: $@room.PricePerNight</p>
+                            <p class="card-text">Room Number: @room.RoomNumber</p>
                             <p class="card-text">City: @room.Hotel.City.Name</p>
-                            <p class="card-text">Price per night: @room.PricePerNight</p>
+                            <p class="card-text">Type: @room.RoomType</p>
+                            <a asp-action="" asp-controller=""  class="btn btn-info rounded">Details</a>
                         </div>
                     </div>
                 </div>

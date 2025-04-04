@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HotelMangementSystem.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:Migrations/20250402182409_InitialTest.cs
-    public partial class InitialTest : Migration
-========
-    public partial class init : Migration
->>>>>>>> Test-All-Features-together-29/3/2025:Migrations/20250403213414_init.cs
+    public partial class milestone44 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -106,7 +102,7 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,7 +123,7 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,7 +143,7 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,13 +161,13 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,7 +187,7 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -211,7 +207,7 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -237,13 +233,13 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reservations_Bills_BillId",
                         column: x => x.BillId,
                         principalTable: "Bills",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -271,17 +267,13 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.ManagerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Hotels_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
                         principalColumn: "Id",
-<<<<<<<< HEAD:Migrations/20250402182409_InitialTest.cs
-                        onDelete: ReferentialAction.NoAction);
-========
                         onDelete: ReferentialAction.Cascade);
->>>>>>>> Test-All-Features-together-29/3/2025:Migrations/20250403213414_init.cs
                 });
 
             migrationBuilder.CreateTable(
@@ -309,17 +301,13 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.ManagerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PendingHotels_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
                         principalColumn: "Id",
-<<<<<<<< HEAD:Migrations/20250402182409_InitialTest.cs
-                        onDelete: ReferentialAction.NoAction);
-========
                         onDelete: ReferentialAction.Cascade);
->>>>>>>> Test-All-Features-together-29/3/2025:Migrations/20250403213414_init.cs
                 });
 
             migrationBuilder.CreateTable(
@@ -339,7 +327,7 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.ReservationId,
                         principalTable: "Reservations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -369,7 +357,7 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.HotelId,
                         principalTable: "Hotels",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reviews_UserReviews_UserReviewId",
                         column: x => x.UserReviewId,
@@ -402,7 +390,7 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.HotelId,
                         principalTable: "Hotels",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Rooms_Reservations_ReservationId",
                         column: x => x.ReservationId,

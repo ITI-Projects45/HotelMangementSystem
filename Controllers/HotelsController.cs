@@ -17,7 +17,7 @@ namespace HotelMangementSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string cityName, string sortOrder = "desc", int page = 1, int pageSize = 6)
         {
-            var hotels = await hotelRepo.GetHotelsByCityAsync(cityName, page, pageSize);
+            var hotels = await hotelRepo.GetHotelsByCityOrderdByStartsAsync(cityName, page, pageSize, sortOrder);
 
             var hotelViewModels = hotels.Select(h => new HotelViewModel
             {
@@ -30,21 +30,14 @@ namespace HotelMangementSystem.Controllers
                 StarRating = h.StarRatig
             }).ToList();
 
-            //if (sortOrder == "asc")
-            //{
-            //    hotelViewModels = hotelViewModels.OrderBy(h => h.StarRating).ToList();
-            //}
-            //else
-            //{
-            //    hotelViewModels = hotelViewModels.OrderByDescending(h => h.StarRating).ToList();
-            //}
+
 
             int totalHotels = await hotelRepo.GetTotalHotelsCountAsync(cityName);
             ViewBag.Cities = await hotelRepo.GetAllCitiesAsync();
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = (int)Math.Ceiling((double)totalHotels / pageSize);
             ViewBag.CityName = cityName;
-            //ViewBag.SortOrder = sortOrder;
+            ViewBag.SortOrder = sortOrder;
 
             return View(hotelViewModels);
         }
