@@ -1,7 +1,9 @@
 ﻿using HotelMangementSystem.Models;
+using HotelMangementSystem.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.IO;
 using System.Security.Claims;
 
 namespace HotelMangementSystem.Repositories
@@ -10,10 +12,13 @@ namespace HotelMangementSystem.Repositories
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IWebHostEnvironment environment;
-        public UserRepo(UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
+        private readonly IFileRepo fileRepo;
+
+        public UserRepo(UserManager<ApplicationUser> userManager, IWebHostEnvironment environment, IFileRepo fileRepo)
         {
             this.userManager = userManager;
             this.environment = environment;
+            this.fileRepo = fileRepo;
         }
 
         public async Task<ApplicationUser?> GetCurrentUserAsync(HttpContext httpContext)
@@ -23,22 +28,16 @@ namespace HotelMangementSystem.Repositories
 
         }
 
-        public async Task UpdateUserAsync(ApplicationUser user, IFormFile? profileImage)
+        public async Task<string> UpdateUserImgAsync(ApplicationUser user, IFormFile? profileImage, ProfileViewModel model)
         {
-            if (profileImage != null && profileImage.Length > 0)
+            var path = "";
+            if (profileImage?.Length > 0)
             {
-                var uploadsFolder = Path.Combine(environment.WebRootPath, "uploads");
-                Directory.CreateDirectory(uploadsFolder);
+                path = await fileRepo.Upload(model.ProfileImage, "/images/profilePictures/", user.UserName);
 
-                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(profileImage.FileName);
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await profileImage.CopyToAsync(stream);
-                }
-                user.ProfilePictureURL = "/uploads/" + uniqueFileName;
             }
-            await userManager.UpdateAsync(user);
+            return path;
+
         }
     }
 }

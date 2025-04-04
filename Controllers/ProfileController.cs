@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using HotelMangementSystem.Models;
 using HotelMangementSystem.Repositories;
 using HotelMangementSystem.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -9,9 +11,12 @@ namespace HotelMangementSystem.Controllers
     public class ProfileController : Controller
     {
         private readonly IUserRepo userRepo;
-        public ProfileController(IUserRepo userRepo)
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public ProfileController(IUserRepo userRepo, UserManager<ApplicationUser> userManager)
         {
             this.userRepo = userRepo;
+            this.userManager = userManager;
         }
         public async Task<IActionResult> Index()
         {
@@ -23,6 +28,8 @@ namespace HotelMangementSystem.Controllers
             return View("Index", user);
 
         }
+
+
         public async Task<IActionResult> Edit()
         {
 
@@ -41,16 +48,21 @@ namespace HotelMangementSystem.Controllers
 
             return View("Edit", userViewModel);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ProfileViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            var user = await userRepo.GetCurrentUserAsync(HttpContext);
+            ApplicationUser user = await userRepo.GetCurrentUserAsync(HttpContext);
             if (user == null) { return NotFound(); }
             user.UserName = model.UserName;
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
-            await userRepo.UpdateUserAsync(user, model.ProfileImage);
+            user.ProfilePictureURL = await userRepo.UpdateUserImgAsync(user, model.ProfileImage, model);
+            await userManager.UpdateAsync(user);
+            //await userRepo.UpdateUserAsync(user, model.ProfileImage);
             return RedirectToAction("Index");
 
         }

@@ -1,4 +1,5 @@
 ﻿using HotelMangementSystem.Models;
+using HotelMangementSystem.Repositories;
 using HotelMangementSystem.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +11,14 @@ namespace HotelMangementSystem.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<ApplicationRole> roleManager;
+        private readonly IFileRepo fileRepo;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, IFileRepo fileRepo)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
+            this.fileRepo = fileRepo;
         }
 
 
@@ -25,6 +28,7 @@ namespace HotelMangementSystem.Controllers
         {
             return View("Register");
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAsync(RegistrationViewModel RegisterForm)
@@ -40,8 +44,26 @@ namespace HotelMangementSystem.Controllers
                         UserName = RegisterForm.UserName,
                         Email = RegisterForm.Email,
                         PhoneNumber = RegisterForm.PhoneNumber,
-                        PasswordHash = RegisterForm.Password
+                        PasswordHash = RegisterForm.Password,
+                        //ProfilePic = RegisterForm.ProfilePic
+
                     };
+                    var path = "";
+                    if (RegisterForm.ProfilePic.Length > 0)
+                    {
+                        path = await fileRepo.Upload(RegisterForm.ProfilePic, "/images/profilePictures/", RegisterForm.UserName);
+                        //if(path) // in error
+
+                    }
+                    newUser.ProfilePictureURL = path;
+
+
+
+
+
+
+
+
 
                     if (userManager.Users.Count() == 0)
                     {

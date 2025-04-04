@@ -1,19 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace HotelMangementSystem.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        [Required]
-        public string? UserName { get; set; }
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public string? Email { get; set; }
-        [Required]
-        public string? ProfilePictureURL { get; set; }
-        [Required]
-        public string PhoneNumber { get; set; }
+
+        public string? ProfilePictureURL { get; set; } = "/images/blank-profile-picture-973460_1280.png";
+
+
+
+
+        [NotMapped]
+
+        public IFormFile? ProfilePic { get; set; }
+
 
         public List<Review>? Reviews { get; set; }
         public List<Hotel>? Hotel { get; set; }

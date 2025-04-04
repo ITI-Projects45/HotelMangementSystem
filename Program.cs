@@ -54,6 +54,7 @@ namespace HotelMangementSystem
             builder.Services.AddScoped<IUserReviewRepo, UserReviewRepo>();
             builder.Services.AddScoped<IPendingHotelRepo, PendingHotelRepo>();
             builder.Services.AddScoped<IUserRepo, UserRepo>();
+            builder.Services.AddScoped<IFileRepo, FileRepo>();
 
 
 
