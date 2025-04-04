@@ -1,4 +1,7 @@
 ﻿@model List<Room>
+@{
+    ViewData["Title"] = "Availiable Rooms";
+}
 
 <div class="hero">
     <section class="home-slider owl-carousel stop-padding">
@@ -63,7 +66,7 @@
                             <p class="card-text">Room Number: @room.RoomNumber</p>
                             <p class="card-text">City: @room.Hotel.City.Name</p>
                             <p class="card-text">Type: @room.RoomType</p>
-                            <a asp-action="" asp-controller=""  class="btn btn-info rounded">Details</a>
+                            <a asp-action="Room" asp-controller="Rooms" asp-route-id="@room.Id" class="btn btn-info rounded">Details</a>
                         </div>
                     </div>
                 </div>

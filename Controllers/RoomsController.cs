@@ -29,5 +29,15 @@ namespace HotelMangementSystem.Controllers
             return View("RoomList", rooms);
         }
 
+
+
+
+        public IActionResult Room(int id)
+        {
+            Room room = roomRepo.GetById(id);
+
+            return View(room);
+        }
+
     }
 }

@@ -65,7 +65,7 @@ namespace HotelMangementSystem.Repositories
         public async Task<Hotel> GetHotelByIdAsync(int id)
         {
             return await context.Hotels
-                .Include(h => h.Rooms)
+                .Include(h => h.Rooms).Include(h => h.Manager).Include(h => h.Reviews).ThenInclude(r => r.User).Include(h => h.City)
                 .FirstOrDefaultAsync(h => h.Id == id);
         }
         public List<Hotel> GetFourTopRatedRandomizedHotels()

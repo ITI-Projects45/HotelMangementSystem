@@ -36,13 +36,13 @@ namespace HotelMangementSystem.Repositories
             catch (Exception ex)
             {
                 Console.WriteLine($"Error fetching rooms: {ex.Message}");
-                return new List<Room>(); 
+                return new List<Room>();
             }
         }
 
         public Room GetById(int id)
         {
-            return context.Rooms.Include(r => r.Hotel).Include(r => r.HotelId).FirstOrDefault(r => r.Id == id);
+            return context.Rooms.Include(r => r.Hotel).FirstOrDefault(r => r.Id == id);
         }
         public void SoftDelete(Room room)
         {
