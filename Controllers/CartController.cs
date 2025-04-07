@@ -111,12 +111,18 @@ namespace HotelMangementSystem.Controllers
 
             /*-----------------------------------------*/
 
-            //foreach (Room room in rooms)
-            //{
-            //    room.roomStatus = RoomStatuses.NotAvailable;
-            //    roomRepo.Update(room);
-            //    roomRepo.Save();
-            //}
+
+
+
+
+
+            foreach (var room in rooms)
+            {
+                //room.roomStatus = RoomStatuses.NotAvailable;
+                //roomRepo.GetByIdWithNoTracking(room.Id);
+                roomRepo.UpdateRoomStatues(room.Id);
+            }
+            roomRepo.Save();
 
 
 
@@ -124,13 +130,14 @@ namespace HotelMangementSystem.Controllers
 
 
             var res = reservationRepo.GetReservationByUserAndBookingDate(user.Id, reservitionViewModel.BookingDate);
-
-            RoomReservation NewRoomReservation = new RoomReservation()
+            foreach (var item in rooms)
             {
-                ReservationId = res.Id,
-                //RoomIds = roomIds.ToList()
-            };
-            roomReservationRepo.Insert(NewRoomReservation);
+                RoomReservation NewRoomReservation = new RoomReservation();
+                NewRoomReservation.ReservationId = res.Id;
+                NewRoomReservation.RoomId = item.Id;
+                roomReservationRepo.Insert(NewRoomReservation);
+            }
+
             roomReservationRepo.Save();
 
 

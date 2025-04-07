@@ -49,6 +49,19 @@ namespace HotelMangementSystem.Repositories
             room.IsDeleted = true;
             room.roomStatus = Enums.RoomStatuses.NotAvailable;
         }
+        public Room GetByIdWithNoTracking(int id)
+        {
+            return context.Rooms.AsNoTracking().Include(r => r.Hotel).FirstOrDefault(r => r.Id == id);
+
+        }
+
+        public void UpdateRoomStatues(int id)
+        {
+            Room room = GetByIdWithNoTracking(id);
+            room.roomStatus = RoomStatuses.NotAvailable;
+            context.Rooms.Update(room);
+        }
+
 
 
     }
