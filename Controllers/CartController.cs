@@ -128,7 +128,7 @@ namespace HotelMangementSystem.Controllers
             RoomReservation NewRoomReservation = new RoomReservation()
             {
                 ReservationId = res.Id,
-                RoomIds = roomIds.ToList()
+                //RoomIds = roomIds.ToList()
             };
             roomReservationRepo.Insert(NewRoomReservation);
             roomReservationRepo.Save();

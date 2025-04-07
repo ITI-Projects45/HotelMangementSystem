@@ -387,6 +387,9 @@ namespace HotelMangementSystem.Migrations
                     b.Property<int>("PricePerNight")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
@@ -402,6 +405,8 @@ namespace HotelMangementSystem.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("HotelId");
+
+                    b.HasIndex("ReservationId");
 
                     b.HasIndex("RoomReservationId");
 
@@ -419,9 +424,8 @@ namespace HotelMangementSystem.Migrations
                     b.Property<int>("ReservationId")
                         .HasColumnType("int");
 
-                    b.PrimitiveCollection<string>("RoomIds")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -648,11 +652,17 @@ namespace HotelMangementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HotelMangementSystem.Models.Reservation", "Reservation")
+                        .WithMany("Rooms")
+                        .HasForeignKey("ReservationId");
+
                     b.HasOne("HotelMangementSystem.Models.RoomReservation", "RoomReservation")
                         .WithMany("Rooms")
                         .HasForeignKey("RoomReservationId");
 
                     b.Navigation("Hotel");
+
+                    b.Navigation("Reservation");
 
                     b.Navigation("RoomReservation");
                 });
@@ -761,6 +771,8 @@ namespace HotelMangementSystem.Migrations
             modelBuilder.Entity("HotelMangementSystem.Models.Reservation", b =>
                 {
                     b.Navigation("RoomReservation");
+
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.RoomReservation", b =>
