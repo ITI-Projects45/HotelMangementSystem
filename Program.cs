@@ -17,7 +17,14 @@ namespace HotelMangementSystem
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<DatabaseContext>(
-              options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnStr")));
+              options =>
+              {
+                  options.UseSqlServer(builder.Configuration.GetConnectionString("ConnStr"));
+                  options.EnableSensitiveDataLogging(true);
+              }
+
+
+              );
 
 
 

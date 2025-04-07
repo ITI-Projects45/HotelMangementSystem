@@ -17,6 +17,6 @@ namespace HotelMangementSystem.Repositories
         Task DeleteRoom(Room room, int HotelId);
         Task<Hotel> GetHotelWithRoomsAsync(int id);
         Task<List<Hotel>> GetHotelsByCityOrderdByStartsAsync(string cityName, int page, int pageSize, string sortOrder = "desc");
-
+        Task<Hotel> GetHotelByIdWithAvailableRoomOnlyAsync(int id);
     }
 }

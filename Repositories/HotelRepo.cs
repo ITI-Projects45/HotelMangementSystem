@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static HotelMangementSystem.Models.Enums.Enums;
 
 namespace HotelMangementSystem.Repositories
 {
@@ -137,5 +138,17 @@ namespace HotelMangementSystem.Repositories
                 .ToListAsync();
         }
 
+
+        public async Task<Hotel> GetHotelByIdWithAvailableRoomOnlyAsync(int id)
+        {
+            return await context.Hotels
+                .AsNoTracking()
+                .Include(h => h.Rooms.Where(r => r.roomStatus == RoomStatuses.Available))
+                .Include(h => h.Manager)
+                .Include(h => h.Reviews)
+                .ThenInclude(r => r.User)
+                .Include(h => h.City)
+                .FirstOrDefaultAsync(h => h.Id == id);
+        }
     }
 }

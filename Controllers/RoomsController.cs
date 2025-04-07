@@ -20,10 +20,11 @@ namespace HotelMangementSystem.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> SearchRooms(int cityId, RoomTypes roomType)
         {
-            var rooms = await roomRepo.SearchRoomsAsync(cityId, roomType);
+            var rooms = await roomRepo.SearchAvailableRoomsOnlyAsync(cityId, roomType);
             List<City> cities = cityRepo.GetCities();
             ViewBag.cities = cities;
             return View("RoomList", rooms);

@@ -12,15 +12,22 @@ namespace HotelMangementSystem.Controllers
     {
         private readonly IUserRepo userRepo;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IReservationRepo reservationRepo;
 
-        public ProfileController(IUserRepo userRepo, UserManager<ApplicationUser> userManager)
+        public ProfileController(IUserRepo userRepo, UserManager<ApplicationUser> userManager, IReservationRepo reservationRepo)
         {
             this.userRepo = userRepo;
             this.userManager = userManager;
+            this.reservationRepo = reservationRepo;
         }
         public async Task<IActionResult> Index()
         {
             var user = await userRepo.GetCurrentUserAsync(HttpContext);
+            if (user != null)
+            {
+
+                ViewBag.LatestBookesHotels = reservationRepo.GetReservationByUser(user.Id);
+            }
             if (user == null)
             {
                 return NotFound();

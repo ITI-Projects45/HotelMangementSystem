@@ -44,7 +44,7 @@ namespace HotelMangementSystem.Controllers
 
         public async Task<IActionResult> Hotel(int id)
         {
-            Hotel hotel = await hotelRepo.GetHotelByIdAsync(id);
+            Hotel hotel = await hotelRepo.GetHotelByIdWithAvailableRoomOnlyAsync(id);
             if (hotel == null)
             {
                 return NotFound();

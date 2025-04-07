@@ -11,10 +11,12 @@ namespace HotelMangementSystem.Repositories
     public class RoomRepo : GeneralRepo<Room>, IRoomRepo
     {
         private readonly DatabaseContext context;
+        private readonly IRoomReservationRepo roomReservationRepo;
 
-        public RoomRepo(DatabaseContext context) : base(context)
+        public RoomRepo(DatabaseContext context, IRoomReservationRepo roomReservationRepo) : base(context)
         {
             this.context = context;
+            this.roomReservationRepo = roomReservationRepo;
         }
         public List<Room> GetRooms()
         {
@@ -39,10 +41,34 @@ namespace HotelMangementSystem.Repositories
                 return new List<Room>();
             }
         }
-
+        public async Task<List<Room>> SearchAvailableRoomsOnlyAsync(int cityId, RoomTypes roomType)
+        {
+            try
+            {
+                return await context.Rooms
+                    .AsNoTracking()
+                    .Include(r => r.Hotel)
+                    .ThenInclude(h => h.City)
+                    .Where(r => !r.IsDeleted &&
+                                r.RoomType == roomType &&
+                                r.Hotel.CityId == cityId &&
+                                r.roomStatus == RoomStatuses.Available)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching rooms: {ex.Message}");
+                return new List<Room>();
+            }
+        }
         public Room GetById(int id)
         {
-            return context.Rooms.Include(r => r.Hotel).FirstOrDefault(r => r.Id == id);
+            var room = context.Rooms.AsNoTracking().Include(r => r.Hotel).AsNoTracking().FirstOrDefault(r => r.Id == id);
+            if (room != null && room.Hotel != null)
+            {
+                context.Entry(room.Hotel).State = EntityState.Detached;
+            }
+            return room;
         }
         public void SoftDelete(Room room)
         {
@@ -51,18 +77,47 @@ namespace HotelMangementSystem.Repositories
         }
         public Room GetByIdWithNoTracking(int id)
         {
-            return context.Rooms.AsNoTracking().Include(r => r.Hotel).FirstOrDefault(r => r.Id == id);
+            var room = context.Rooms.AsNoTracking().Include(r => r.Hotel).AsNoTracking().FirstOrDefault(r => r.Id == id);
+            if (room != null && room.Hotel != null)
+            {
+                context.Entry(room.Hotel).State = EntityState.Detached;
+            }
+            return room;
 
         }
 
-        public void UpdateRoomStatues(int id)
+        public void UpdateRoomStatues(int id, RoomReservation roomReservation)
         {
             Room room = GetByIdWithNoTracking(id);
             room.roomStatus = RoomStatuses.NotAvailable;
+            room.RoomReservation = roomReservation;
+            room.RoomReservation.Id = roomReservation.Id;
+            if (room.Hotel != null)
+            {
+                context.Entry(room.Hotel).State = EntityState.Detached;
+            }
+            //room.RoomReservation.Id
+            //RoomReservation roomRes = roomReservationRepo.GetById(roomReservationId);
+            //room.RoomReservation = roomRes;
+            //room.RoomReservation.Id = roomRes.Id;
+            context.Entry(room).State = EntityState.Modified;
+
             context.Rooms.Update(room);
         }
 
+        public void UpdateReservationRoom(int id, RoomReservation roomReservation)
+        {
+            Room room = GetByIdWithNoTracking(id);
+            room.RoomReservation = roomReservation;
+            //if (room.Hotel != null)
+            //{
+            //    context.Entry(room.Hotel).State = EntityState.Detached;
+            //}
+            context.Entry(room).State = EntityState.Modified;
+            room.RoomReservation.Id = roomReservation.Id;
+            context.Rooms.Update(room);
 
+        }
 
     }
 }

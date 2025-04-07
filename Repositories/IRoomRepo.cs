@@ -9,7 +9,9 @@ namespace HotelMangementSystem.Repositories
         public void SoftDelete(Room room);
 
         Task<List<Room>> SearchRoomsAsync(int cityId, RoomTypes roomType);
+        Task<List<Room>> SearchAvailableRoomsOnlyAsync(int cityId, RoomTypes roomType);
         public Room GetByIdWithNoTracking(int id);
-        public void UpdateRoomStatues(int id);
+        public void UpdateRoomStatues(int id, RoomReservation roomReservation);
+        public void UpdateReservationRoom(int id, RoomReservation roomReservation);
     }
 }

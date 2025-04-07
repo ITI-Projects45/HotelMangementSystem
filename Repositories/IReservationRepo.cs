@@ -6,5 +6,6 @@ namespace HotelMangementSystem.Repositories
     {
         public List<Reservation> GetReservations();
         public Reservation GetReservationByUserAndBookingDate(string userId, DateTime BookingDate);
+        public List<Reservation> GetReservationByUser(string userId);
     }
 }

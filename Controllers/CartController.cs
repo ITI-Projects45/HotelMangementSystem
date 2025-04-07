@@ -27,13 +27,14 @@ namespace HotelMangementSystem.Controllers
             this.roomReservationRepo = roomReservationRepo;
             this.billRepo = billRepo;
         }
+
         public async Task<IActionResult> Index()
         {
             rooms.Clear();
 
             foreach (var item in roomIds)
             {
-                Room room = roomRepo.GetById(item);
+                Room room = roomRepo.GetByIdWithNoTracking(item);
                 rooms.Add(room);
 
             }
@@ -65,7 +66,7 @@ namespace HotelMangementSystem.Controllers
 
         }
 
-        public async Task<IActionResult> BookedAsync(ReservitionViewModel reservitionViewModel)
+        public async Task<IActionResult> Booked(ReservitionViewModel reservitionViewModel)
         {
             ApplicationUser user = await userManager.FindByNameAsync(User.Identity.Name);
 
@@ -75,15 +76,25 @@ namespace HotelMangementSystem.Controllers
             reservitionViewModel.Rooms = rooms.ToList();
             reservitionViewModel.UserId = userId;
             reservitionViewModel.BookingDate = DateTime.Now;
+            int Sum = 0;
+            double vat = 0.1;
+            double totalSum = 0;
+
+            foreach (var item in rooms)
+
+            {
+                Sum += item.PricePerNight;
+            }
+            totalSum = Sum + (Sum * vat);
             Bill NewBill = new Bill()
             {
-                TotalPrice = 15,
+                TotalPrice = (int)totalSum,
                 IsDeleted = false,
                 LateCheckout = false,
-                PaymentMethod = PaymentMethods.InstaPay,
-                RoomCharge = 150,
+                PaymentMethod = PaymentMethods.Cash,
+                RoomCharge = Sum,
                 CheckoutDate = reservitionViewModel.CheckOutDate,
-                ReservistionStatus = ReservistionStatuses.Confirmed
+                ReservistionStatus = ReservistionStatuses.Confirmed,
             };
 
             billRepo.Insert(NewBill);
@@ -103,6 +114,7 @@ namespace HotelMangementSystem.Controllers
                 User = user,
                 ReservistionStatus = ReservistionStatuses.Confirmed,
 
+
             };
             reservationRepo.Insert(newReservation);
             reservationRepo.Save();
@@ -116,13 +128,7 @@ namespace HotelMangementSystem.Controllers
 
 
 
-            foreach (var room in rooms)
-            {
-                //room.roomStatus = RoomStatuses.NotAvailable;
-                //roomRepo.GetByIdWithNoTracking(room.Id);
-                roomRepo.UpdateRoomStatues(room.Id);
-            }
-            roomRepo.Save();
+
 
 
 
@@ -130,22 +136,41 @@ namespace HotelMangementSystem.Controllers
 
 
             var res = reservationRepo.GetReservationByUserAndBookingDate(user.Id, reservitionViewModel.BookingDate);
-            foreach (var item in rooms)
+            RoomReservation NewRoomReservation = new RoomReservation();
+            NewRoomReservation.ReservationId = res.Id;
+            NewRoomReservation.RoomId = roomIds.ToList();
+
+            //foreach (var room in rooms)
+            //{
+            //    NewRoomReservation.RoomId.Add(room.Id);
+            //    //roomRepo.UpdateRoomStatues(room.Id, NewRoomReservation.Id);
+            //}
+
+            roomReservationRepo.Insert(NewRoomReservation);
+            roomReservationRepo.Save();
+            //roomReservationRepo.
+            foreach (var room in rooms)
             {
-                RoomReservation NewRoomReservation = new RoomReservation();
-                NewRoomReservation.ReservationId = res.Id;
-                NewRoomReservation.RoomId = item.Id;
-                roomReservationRepo.Insert(NewRoomReservation);
+
+                roomRepo.UpdateRoomStatues(room.Id, NewRoomReservation);
+                //roomRepo.UpdateReservationRoom(room.Id, NewRoomReservation);
             }
 
-            roomReservationRepo.Save();
-
+            roomRepo.Save();
 
             ViewBag.Booked = true;
-
+            rooms.Clear();
+            roomIds.Clear();
 
             return View("Index", reservitionViewModel);
 
         }
+
+        public static void EmptyLists()
+        {
+            rooms.Clear();
+            roomIds.Clear();
+        }
+
     }
 }

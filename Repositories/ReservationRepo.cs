@@ -1,5 +1,7 @@
-﻿using HotelMangementSystem.Models;
+﻿using System.Linq;
+using HotelMangementSystem.Models;
 using HotelMangementSystem.Models.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelMangementSystem.Repositories
 {
@@ -19,6 +21,11 @@ namespace HotelMangementSystem.Repositories
         public Reservation GetReservationByUserAndBookingDate(string userId, DateTime BookingDate)
         {
             return context.Reservations.FirstOrDefault(r => r.UserId.Contains(userId) && r.BookingDate == BookingDate);
+        }
+        public List<Reservation> GetReservationByUser(string userId)
+        {
+            return context.Reservations.AsNoTracking().Include(R => R.Bill).AsNoTracking().Where(r => r.UserId.Contains(userId)).ToList();
+
         }
     }
 }

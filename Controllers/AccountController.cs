@@ -183,8 +183,10 @@ namespace HotelMangementSystem.Controllers
 
 
             await signInManager.SignOutAsync();
+            CartController.EmptyLists();
 
             return RedirectToAction("Login", "Account");
+
         }
         #endregion
 
