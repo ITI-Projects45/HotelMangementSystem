@@ -15,5 +15,10 @@ namespace HotelMangementSystem.Repositories
         {
             return context.Reservations.Where(b => b.IsDeleted == false).ToList();
         }
+
+        public Reservation GetReservationByUserAndBookingDate(string userId, DateTime BookingDate)
+        {
+            return context.Reservations.FirstOrDefault(r => r.UserId.Contains(userId) && r.BookingDate == BookingDate);
+        }
     }
 }

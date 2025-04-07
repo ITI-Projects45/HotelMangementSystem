@@ -30,7 +30,7 @@ public class HomeController : Controller
     {
         List<Hotel> hotels = hotelRepo.GetFourTopRatedRandomizedHotels();
         ViewBag.hotels = hotels;
-        List<Review> reviews = reviewRepo.getAllWithUserAndHotels();
+        List<Review> reviews = reviewRepo.getSevenRandomReviewsWithUserAndHotels();
         ViewBag.reviews = reviews;
         List<City> cities = cityRepo.GetCities();
         ViewBag.cities = cities;

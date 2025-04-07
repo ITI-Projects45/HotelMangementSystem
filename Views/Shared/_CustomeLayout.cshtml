@@ -111,6 +111,8 @@
 
 						<li class="nav-item">
 							<a class="nav-link text-light" asp-controller="Profile" asp-action="Index"><i class="bi bi-person-circle"></i> Profile</a>
+						</li><li class="nav-item">
+							<a class="nav-link text-light" asp-controller="Cart" asp-action="Index"><i class="bi bi-person-circle"></i> Cart</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
@@ -154,17 +156,7 @@
 							Far far away, behind the word mountains, far from the countries
 							Vokalia and Consonantia, there live the blind texts.
 						</p>
-						@* <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5"> *@
-						@*     <li class="ftco-animate"> *@
-						@*         <a href="#"><span class="icon-twitter"></span></a> *@
-						@*     </li> *@
-						@*     <li class="ftco-animate"> *@
-						@*         <a href="#"><span class="icon-facebook"></span></a> *@
-						@*     </li> *@
-						@*     <li class="ftco-animate"> *@
-						@*         <a href="#"><span class="icon-instagram"></span></a> *@
-						@*     </li> *@
-						@* </ul> *@
+				
 					</div>
 				</div>
 				<div class="col-md">
@@ -172,7 +164,7 @@
 						<h2 class="ftco-heading-2">Useful Links</h2>
 						<ul class="list-unstyled">
 							<li>
-								<                        <a asp-action="Index" asp-controller="Hotels" class="nav-link">Hotels</a>
+								<a asp-action="Index" asp-controller="Hotels" class="nav-link">Hotels</a>
 							</li>
 							<li>
 								<a asp-action="About" asp-controller="Home" class="nav-link">About Us</a>

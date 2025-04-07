@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 room-single mt-4 mb-5 ftco-animate">
-                        <h2 class="mb-4 d-inline-block me-5">@Model.RoomType </h2> <a class="btn btn-success text-white rounded"> Book</a> <!--<span>- (4 Available rooms)</span>-->
+                        <h2 class="mb-4 d-inline-block me-5">@Model.RoomType </h2> <a asp-action="Book" asp-controller="Cart" asp-route-RoomId="@Model.Id" class="btn btn-success text-white rounded"> Add To Card</a>
                         <p>@Model.Description</p>
                         <div class="d-md-flex mt-5 mb-5">
                             <ul class="list">

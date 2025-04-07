@@ -26,8 +26,6 @@ namespace HotelMangementSystem
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;
-
-
             })
             .AddEntityFrameworkStores<DatabaseContext>();
 

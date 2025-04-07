@@ -8,7 +8,7 @@ namespace HotelMangementSystem.Models
         [ForeignKey("Reservation")]
         public int ReservationId { get; set; }
 
-        public int RoomId { get; set; }
+        public List<int> RoomIds { get; set; }
 
         public Reservation? Reservation { get; set; }
         public List<Room>? Rooms { get; set; }

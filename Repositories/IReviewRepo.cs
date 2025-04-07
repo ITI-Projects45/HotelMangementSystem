@@ -7,5 +7,6 @@ namespace HotelMangementSystem.Repositories
         public List<Review> getAllWithUser();
         public List<Review> getAllWithUserAndHotels();
         public List<Review> GetReviews();
+        public List<Review> getSevenRandomReviewsWithUserAndHotels();
     }
 }

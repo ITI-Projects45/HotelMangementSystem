@@ -29,6 +29,15 @@ namespace HotelMangementSystem.Repositories
         {
             return context.Reviews.Where(b => b.IsDeleted == false).ToList();
         }
+        public List<Review> getSevenRandomReviewsWithUserAndHotels()
+        {
+            List<Review> reviews = context.Reviews.Include("User").Include("Hotel").Where(r => r.IsDeleted == false).OrderBy(h => Guid.NewGuid()).Take(7).ToList();
+
+
+            return reviews;
+
+        }
+
 
     }
 }

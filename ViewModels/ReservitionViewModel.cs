@@ -1,17 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using HotelMangementSystem.Models;
 using static HotelMangementSystem.Models.Enums.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HotelMangementSystem.Models
+namespace HotelMangementSystem.ViewModels
 {
-    public class Reservation
+    public class ReservitionViewModel
     {
-        public int Id { get; set; }
         public DateTime BookingDate { get; set; }
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
-        public int Deposite { get; set; }
+        //public int Deposite { get; set; }
         public ReservistionStatuses ReservistionStatus { get; set; }
+
+
         public bool IsDeleted { get; set; }
+
 
         [ForeignKey("User")]
         public string UserId { get; set; }
@@ -19,10 +22,13 @@ namespace HotelMangementSystem.Models
         public int BillId { get; set; }
 
 
+        public List<Room>? Rooms { get; set; }
+
+
+
         public Bill? Bill { get; set; }
         public ApplicationUser? User { get; set; }
 
         public RoomReservation? RoomReservation { get; set; }
-
     }
 }

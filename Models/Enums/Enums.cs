@@ -11,7 +11,8 @@
         }
         public enum ReservistionStatuses
         {
-
+            Cancled = 1,
+            Confirmed = 2
         }
         public enum RoomTypes
         {

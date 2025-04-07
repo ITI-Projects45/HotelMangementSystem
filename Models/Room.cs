@@ -19,7 +19,6 @@ namespace HotelMangementSystem.Models
 
 
         public Hotel? Hotel { get; set; }
-        public Reservation? Reservation { get; set; }
 
         public RoomReservation? RoomReservation { get; set; }
     }

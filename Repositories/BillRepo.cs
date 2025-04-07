@@ -16,5 +16,6 @@ namespace HotelMangementSystem.Repositories
             return context.Bills.Where(b => b.IsDeleted == false).ToList();
         }
 
+
     }
 }

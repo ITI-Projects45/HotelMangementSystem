@@ -12,6 +12,7 @@ namespace HotelMangementSystem.ViewModels
         public string? Email { get; set; }
         [Phone]
         public string? PhoneNumber { get; set; }
+        [Required]
         public IFormFile? ProfileImage { get; set; }
         public string? CurrentProfilePictureUrl { get; set; }
     }
