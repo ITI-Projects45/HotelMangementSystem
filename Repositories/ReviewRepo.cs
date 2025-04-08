@@ -14,6 +14,17 @@ namespace HotelMangementSystem.Repositories
         {
             this.context = context;
         }
+
+        public void AddReview(Review review) {
+             context.Reviews.Add(review);
+        }
+        public List<Review> GetReviewsByHotelId(int hotelId) {
+
+            return context.Reviews
+                .Where(r => r.HotelId == hotelId)
+                .OrderBy(r => r.ReviewDate)
+                .ToList();
+        }
         public List<Review> getAllWithUser()
         {
             return context.Reviews.Include("User").Where(r => r.IsDeleted == false).ToList();
