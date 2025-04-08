@@ -1,15 +1,23 @@
 ﻿using HotelMangementSystem.Models;
 using static HotelMangementSystem.Models.Enums.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
+using HotelMangementSystem.Validations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HotelMangementSystem.ViewModels
 {
     public class ReservitionViewModel
     {
         public DateTime BookingDate { get; set; }
+        [DontAllowFutureDate]
+        [Remote("ValidateDate", "Validation")]
+
         public DateTime CheckInDate { get; set; }
+
+        [Remote("ValidateCheckOutDate", "Validation", AdditionalFields = "CheckInDate")]
+
         public DateTime CheckOutDate { get; set; }
-        //public int Deposite { get; set; }
+        //public int Deposite { get; set; }B
         public ReservistionStatuses ReservistionStatus { get; set; }
 
 

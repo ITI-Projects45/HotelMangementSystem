@@ -22,12 +22,19 @@
 		</div>
 	</div>
 </div>
+<div asp-validation-summary="All" class="text-danger"></div>
 
 @if (ViewBag.Booked != null && ViewBag.Booked == true)
 {
 	<div class="alert alert-success">You have been booked successfully</div>
+}@if (ViewBag.BookedRoom != null && ViewBag.BookedRoom == true)
+{
+
+
+	<div class="alert alert-danger">You can't Book a prereserved room number : @ViewBag.reservedRoomNumber</div>
 }
-@if (@Model.Rooms.Count == 0)
+
+@if (@Model?.Rooms?.Count == 0)
 {
 
 
@@ -64,7 +71,8 @@ else
 								<!-- Single item -->
 								@foreach (var item in @Model.Rooms)
 								{
-									<div class="row">
+									<input asp-for="UserId" value="@ViewBag.UserId" readonly style="display:none" />
+									<div class="row justify-content-center align-items-start">
 										<div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
 
 											<div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
@@ -75,65 +83,76 @@ else
 												</a>
 											</div>
 										</div>
-
-
 										<div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-											<h4>Type: @item.RoomType</h4>
-											<p><strong>@item.RoomNumber</strong></p>
-											<p>Description:@item.Description</p>
+											<h4> @item.RoomType <strong>#@item.RoomNumber</strong></h4>
 											<p>Capacity: @item.Capacity</p>
-											<button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-sm me-1 mb-2" data-mdb-tooltip-init
-													title="Remove item">
-												-
-											</button>
+
 
 
 
 										</div>
-										<div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
-											<div class="d-flex mb-4" style="max-width: 300px">
+										<div class="col-lg-3 col-md-6 mb-4 mb-lg-0 d-flex align-items-baseline">
+											<div class="d-inline-flex justify-content-center align-items-baseline mb-4" style="max-width: 300px">
 												<div class="card mb-4">
 													<div class="card-body">
 														<h4><strong>$@item.PricePerNight</strong></h4>
 													</div>
+
 												</div>
 											</div>
+											<a asp-action="RemoveFromRoomsList" asp-controller="Cart" asp-route-RoomId="@item.Id" class="btn btn-danger rounded btn-sm me-1 mb-2  ms-3  icon-delete"
+											   title="Remove item">
+											</a>
 										</div>
 
 									</div>
 									<hr class="my-4" />
 								}
+
+
+
+
+
 								<div class="col-lg-12 col-md-12 mb-4 mb-lg-0">
-									<div class="d-flex mb-4" style="max-width: 300px">
+									<div class="mb-4" style="width:100%">
 										<div class="card mb-4">
 											<div class="card-body">
-												<p><strong>Expected shipping delivery</strong></p>
+												<p><strong>Expected Check-in & Check-out dates</strong></p>
 
 
+												<div class="d-flex">
 
-												<div class="col-md d-flex py-md-4">
+
+												<div class="col-md d-flex">
 													<div class="form-group align-self-stretch d-flex align-items-end">
-														<div class="wrap align-self-stretch py-3 px-4">
+														<div class="wrap align-self-stretch">
 															<label asp-for="CheckInDate">Check-in Date</label>
 															<input type="text"
 																   asp-for="CheckInDate"
 																   class="form-control checkin_date"
-																   placeholder="Check-in date" />
+																   placeholder="Check-in date"
+																   value=""
+																   min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+															<span asp-validation-for="CheckInDate" class="text-danger"></span>
 														</div>
 													</div>
 												</div>
-												<div class="col-md d-flex py-md-4">
+												<div class="col-md d-flex">
 													<div class="form-group align-self-stretch d-flex align-items-end">
-														<div class="wrap align-self-stretch py-3 px-4">
+														<div class="wrap align-self-stretch">
 															<label asp-for="CheckOutDate">Check-out Date</label>
 															<input type="text"
 																   asp-for="CheckOutDate"
 																   class="form-control checkout_date"
-																   placeholder="Check-out date" />
+																   placeholder="Check-out date"
+																   value="" />
+															<span asp-validation-for="CheckOutDate" class="text-danger"></span>
+
 														</div>
 													</div>
 												</div>
 
+												</div>
 												@* <p class="mb-0">12.10.2020 - 14.10.2020</p> *@
 											</div>
 										</div>
@@ -177,14 +196,14 @@ else
 							<div class="card-body">
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-										Hotels
+										Rooms
 										<span>
 											@foreach (var item in Model.Rooms)
 											{
 												Sum += item.PricePerNight;
 											}
 
-											$@Sum
+											
 										</span>
 									</li>
 									@* <li class="list-group-item d-flex justify-content-between align-items-center px-0"> *@
@@ -198,26 +217,28 @@ else
 												<p class="mb-0">(including VAT)</p>
 											</strong>
 										</div>
-										<span>
+										<h3>
 											<strong>
 												$@(totalSum = Sum + (Sum * vat))
-												@(ViewBag.TotalSum = totalSum)
+												@* @(ViewBag.TotalSum = totalSum) *@
 											</strong>
-										</span>
+										</h3>
 									</li>
 								</ul>
 
 								@if (ViewBag.Booked != null && ViewBag.Booked == true)
 								{
 
-								<button disabled  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block rounded">
-									Go to checkout
-								</button>
-								}else{
+									<button disabled type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block rounded">
+										Go to checkout
+									</button>
+								}
+								else
+								{
 
-								<button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block rounded">
-									Go to checkout
-								</button>
+									<button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block rounded">
+										Go to checkout
+									</button>
 								}
 
 
@@ -237,3 +258,5 @@ else
 
 	</form>
 }
+
+<partial name="_ValidationScriptsPartial" />

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using HotelMangementSystem.Models;
 using HotelMangementSystem.Repositories;
 using HotelMangementSystem.ViewModels;
@@ -49,6 +50,7 @@ namespace HotelMangementSystem.Controllers
 
 
             };
+            ViewBag.UserId = user.Id;
             return View(reservitionViewModel);
         }
         public IActionResult Book(int RoomId)
@@ -68,101 +70,109 @@ namespace HotelMangementSystem.Controllers
 
         public async Task<IActionResult> Booked(ReservitionViewModel reservitionViewModel)
         {
-            ApplicationUser user = await userManager.FindByNameAsync(User.Identity.Name);
-
-
-
-            userId = user.Id;
-            reservitionViewModel.Rooms = rooms.ToList();
-            reservitionViewModel.UserId = userId;
-            reservitionViewModel.BookingDate = DateTime.Now;
-            int Sum = 0;
-            double vat = 0.1;
-            double totalSum = 0;
-
-            foreach (var item in rooms)
-
-            {
-                Sum += item.PricePerNight;
-            }
-            totalSum = Sum + (Sum * vat);
-            Bill NewBill = new Bill()
-            {
-                TotalPrice = (int)totalSum,
-                IsDeleted = false,
-                LateCheckout = false,
-                PaymentMethod = PaymentMethods.Cash,
-                RoomCharge = Sum,
-                CheckoutDate = reservitionViewModel.CheckOutDate,
-                ReservistionStatus = ReservistionStatuses.Confirmed,
-            };
-
-            billRepo.Insert(NewBill);
-            billRepo.Save();
-
-
-
-
-            Reservation newReservation = new Reservation()
-            {
-                BillId = NewBill.Id,
-                BookingDate = reservitionViewModel.BookingDate,
-                CheckInDate = reservitionViewModel.CheckInDate,
-                CheckOutDate = reservitionViewModel.CheckOutDate,
-                IsDeleted = false,
-                UserId = userId,
-                User = user,
-                ReservistionStatus = ReservistionStatuses.Confirmed,
-
-
-            };
-            reservationRepo.Insert(newReservation);
-            reservationRepo.Save();
-
-
-
-            /*-----------------------------------------*/
-
-
-
-
-
-
-
-
-
-
-            /*---------------------------------------*/
-
-
-            var res = reservationRepo.GetReservationByUserAndBookingDate(user.Id, reservitionViewModel.BookingDate);
-            RoomReservation NewRoomReservation = new RoomReservation();
-            NewRoomReservation.ReservationId = res.Id;
-            NewRoomReservation.RoomId = roomIds.ToList();
-
-            //foreach (var room in rooms)
+            //if (ModelState.IsValid)
             //{
-            //    NewRoomReservation.RoomId.Add(room.Id);
-            //    //roomRepo.UpdateRoomStatues(room.Id, NewRoomReservation.Id);
-            //}
+            //    try
+            //    {
 
-            roomReservationRepo.Insert(NewRoomReservation);
-            roomReservationRepo.Save();
-            //roomReservationRepo.
-            foreach (var room in rooms)
+            if (ModelState.IsValid)
             {
 
-                roomRepo.UpdateRoomStatues(room.Id, NewRoomReservation);
-                //roomRepo.UpdateReservationRoom(room.Id, NewRoomReservation);
+
+
+                ApplicationUser user = await userManager.FindByNameAsync(User.Identity.Name);
+
+                foreach (var item in rooms)
+                {
+                    if (item?.RoomReservation?.Id != null)
+                    {
+                        reservitionViewModel.Rooms = rooms.ToList();
+                        reservitionViewModel.UserId = user.Id;
+
+                        ViewBag.BookedRoom = true;
+                        ViewBag.reservedRoomNumber = item.RoomNumber;
+                        return View("Index", reservitionViewModel);
+                    }
+
+                }
+
+                userId = user.Id;
+                reservitionViewModel.Rooms = rooms.ToList();
+                reservitionViewModel.UserId = userId;
+                reservitionViewModel.BookingDate = DateTime.Now;
+                int Sum = 0;
+                double vat = 0.1;
+                double totalSum = 0;
+
+                foreach (var item in rooms)
+
+                {
+                    Sum += item.PricePerNight;
+                }
+                totalSum = Sum + (Sum * vat);
+                Bill NewBill = new Bill()
+                {
+                    TotalPrice = (int)totalSum,
+                    IsDeleted = false,
+                    LateCheckout = false,
+                    PaymentMethod = PaymentMethods.Cash,
+                    RoomCharge = Sum,
+                    CheckoutDate = reservitionViewModel.CheckOutDate,
+                    ReservistionStatus = ReservistionStatuses.Confirmed,
+                };
+
+                billRepo.Insert(NewBill);
+                billRepo.Save();
+
+
+
+
+                Reservation newReservation = new Reservation()
+                {
+                    BillId = NewBill.Id,
+                    BookingDate = reservitionViewModel.BookingDate,
+                    CheckInDate = reservitionViewModel.CheckInDate,
+                    CheckOutDate = reservitionViewModel.CheckOutDate,
+                    IsDeleted = false,
+                    UserId = userId,
+                    User = user,
+                    ReservistionStatus = ReservistionStatuses.Confirmed,
+
+
+                };
+                reservationRepo.Insert(newReservation);
+                reservationRepo.Save();
+
+
+
+                var res = reservationRepo.GetReservationByUserAndBookingDate(user.Id, reservitionViewModel.BookingDate);
+                RoomReservation NewRoomReservation = new RoomReservation();
+                NewRoomReservation.ReservationId = res.Id;
+                NewRoomReservation.RoomId = roomIds.ToList();
+
+
+
+                roomReservationRepo.Insert(NewRoomReservation);
+                roomReservationRepo.Save();
+                foreach (var room in rooms)
+                {
+
+                    roomRepo.UpdateRoomStatues(room.Id, NewRoomReservation);
+                }
+
+                roomRepo.Save();
+
+                ViewBag.Booked = true;
+                rooms.Clear();
+                roomIds.Clear();
+
+                return View("Index", reservitionViewModel);
             }
-
-            roomRepo.Save();
-
-            ViewBag.Booked = true;
-            rooms.Clear();
-            roomIds.Clear();
-
-            return View("Index", reservitionViewModel);
+            else
+            {
+                ModelState.AddModelError("", "An Error is Ocurred");
+                return RedirectToAction("Index", reservitionViewModel);
+            }
 
         }
 
@@ -170,6 +180,12 @@ namespace HotelMangementSystem.Controllers
         {
             rooms.Clear();
             roomIds.Clear();
+        }
+
+        public IActionResult RemoveFromRoomsList(int RoomId)
+        {
+            roomIds.Remove(RoomId);
+            return RedirectToAction("Index");
         }
 
     }

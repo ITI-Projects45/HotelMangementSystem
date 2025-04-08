@@ -77,7 +77,7 @@ namespace HotelMangementSystem.Repositories
         }
         public Room GetByIdWithNoTracking(int id)
         {
-            var room = context.Rooms.AsNoTracking().Include(r => r.Hotel).AsNoTracking().FirstOrDefault(r => r.Id == id);
+            var room = context.Rooms.AsNoTracking().Include(r => r.RoomReservation).Include(r => r.Hotel).AsNoTracking().FirstOrDefault(r => r.Id == id);
             if (room != null && room.Hotel != null)
             {
                 context.Entry(room.Hotel).State = EntityState.Detached;
