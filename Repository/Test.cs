@@ -1,4 +1,4 @@
-﻿namespace HotelMangementSystem.Repository
+﻿namespace HotelMangementSystem.Repo
 {
     public class Test
     {
