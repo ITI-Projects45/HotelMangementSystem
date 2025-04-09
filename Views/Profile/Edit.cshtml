@@ -1,7 +1,7 @@
 ﻿@model HotelMangementSystem.ViewModels.ProfileViewModel
 @{
-    ViewBag.Title = "Edit My Profile";
-  
+    ViewData["Title"] = "Edit My Profile";
+
 }
 <div class="hero-wrap" style="background-image: url('/images/bg_3.jpg');">
     <div class="overlay"></div>
@@ -59,23 +59,20 @@
     <partial name="_ValidationScriptsPartial" />
 }
 
-<script>
-    // Get a reference to our file input
-    const fileInput = document.querySelector('input[type="file"]');
-    const fileName = @Model.CurrentProfilePictureUrl;   ///images/profilePictures//hoteladmin22222.png
-        const extractedFileName = inputString.split("/").pop();
-    console.log(extractedFileName);
+@* <script> *@
+@*     // Get a reference to our file input *@
+@*     const fileInput = document.querySelector('input[type="file"]'); *@
 
+@*     // Create a new File object for an image *@
+@*     // You can use any image data for the content, here we just simulate it as empty *@
+@*     const imageContent = new Blob([], { type: 'image/png' }); // Simulated empty image data *@
+@*     const myImageFile = new File([imageContent], 'imageFile.png', { *@
+@*         type: 'image/png', *@
+@*         lastModified: new Date() *@
+@*     }); *@
 
-
-    // Create a new File object
-    const myFile = new File(['Hello World!'], extractedFileName, {
-        type: 'image/*',
-        lastModified: new Date(),
-    });
-
-    // Now let's create a DataTransfer to get a FileList
-    const dataTransfer = new DataTransfer();
-    dataTransfer.items.add(myFile);
-    fileInput.files = dataTransfer.files;
-</script>
+@*     // Create a DataTransfer object to mimic a FileList *@
+@*     const dataTransfer = new DataTransfer(); *@
+@*     dataTransfer.items.add(myImageFile); // Add the image file to the FileList *@
+@*     fileInput.files = dataTransfer.files; // Assign the FileList to the input *@
+@* </script> *@
