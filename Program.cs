@@ -20,7 +20,6 @@ namespace HotelMangementSystem
               options =>
               {
                   options.UseSqlServer(builder.Configuration.GetConnectionString("ConnStr"));
-                  options.EnableSensitiveDataLogging(true);
               }
 
 
@@ -85,6 +84,7 @@ namespace HotelMangementSystem
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseDeveloperExceptionPage();
             app.UseAuthorization();
 
             app.MapStaticAssets();

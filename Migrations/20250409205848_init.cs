@@ -192,26 +192,6 @@ namespace HotelMangementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserReviews",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ReviewId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserReviews", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserReviews_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Reservations",
                 columns: table => new
                 {
@@ -342,8 +322,7 @@ namespace HotelMangementSystem.Migrations
                     ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     HotelId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserReviewId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -359,11 +338,6 @@ namespace HotelMangementSystem.Migrations
                         principalTable: "Hotels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reviews_UserReviews_UserReviewId",
-                        column: x => x.UserReviewId,
-                        principalTable: "UserReviews",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -402,6 +376,32 @@ namespace HotelMangementSystem.Migrations
                         column: x => x.RoomReservationId,
                         principalTable: "RoomReservations",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserReviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReviewId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserReviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserReviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserReviews_Reviews_ReviewId",
+                        column: x => x.ReviewId,
+                        principalTable: "Reviews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -485,11 +485,6 @@ namespace HotelMangementSystem.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_UserReviewId",
-                table: "Reviews",
-                column: "UserReviewId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RoomReservations_ReservationId",
                 table: "RoomReservations",
                 column: "ReservationId",
@@ -509,6 +504,12 @@ namespace HotelMangementSystem.Migrations
                 name: "IX_Rooms_RoomReservationId",
                 table: "Rooms",
                 column: "RoomReservationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserReviews_ReviewId",
+                table: "UserReviews",
+                column: "ReviewId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserReviews_UserId",
@@ -539,34 +540,34 @@ namespace HotelMangementSystem.Migrations
                 name: "PendingHotels");
 
             migrationBuilder.DropTable(
-                name: "Reviews");
-
-            migrationBuilder.DropTable(
                 name: "Rooms");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "UserReviews");
 
             migrationBuilder.DropTable(
-                name: "Hotels");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "RoomReservations");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Hotels");
 
             migrationBuilder.DropTable(
                 name: "Bills");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
         }
     }
 }

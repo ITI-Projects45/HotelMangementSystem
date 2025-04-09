@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelMangementSystem.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250408153945_init")]
+    [Migration("20250409205848_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -352,16 +352,11 @@ namespace HotelMangementSystem.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("UserReviewId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("HotelId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserReviewId");
 
                     b.ToTable("Reviews");
                 });
@@ -455,6 +450,9 @@ namespace HotelMangementSystem.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ReviewId")
+                        .IsUnique();
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -637,15 +635,9 @@ namespace HotelMangementSystem.Migrations
                         .WithMany("Reviews")
                         .HasForeignKey("UserId");
 
-                    b.HasOne("HotelMangementSystem.Models.UserReview", "UserReview")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserReviewId");
-
                     b.Navigation("Hotel");
 
                     b.Navigation("User");
-
-                    b.Navigation("UserReview");
                 });
 
             modelBuilder.Entity("HotelMangementSystem.Models.Room", b =>
@@ -684,11 +676,19 @@ namespace HotelMangementSystem.Migrations
 
             modelBuilder.Entity("HotelMangementSystem.Models.UserReview", b =>
                 {
+                    b.HasOne("HotelMangementSystem.Models.Review", "Review")
+                        .WithOne("UserReview")
+                        .HasForeignKey("HotelMangementSystem.Models.UserReview", "ReviewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("HotelMangementSystem.Models.ApplicationUser", "User")
                         .WithOne("UserReview")
                         .HasForeignKey("HotelMangementSystem.Models.UserReview", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Review");
 
                     b.Navigation("User");
                 });
@@ -779,14 +779,14 @@ namespace HotelMangementSystem.Migrations
                     b.Navigation("Rooms");
                 });
 
+            modelBuilder.Entity("HotelMangementSystem.Models.Review", b =>
+                {
+                    b.Navigation("UserReview");
+                });
+
             modelBuilder.Entity("HotelMangementSystem.Models.RoomReservation", b =>
                 {
                     b.Navigation("Rooms");
-                });
-
-            modelBuilder.Entity("HotelMangementSystem.Models.UserReview", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }
