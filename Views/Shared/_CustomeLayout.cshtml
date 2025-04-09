@@ -4,13 +4,13 @@
 	<title>@ViewData["Title"] - HotelMangementSystem</title>
 	<meta charset="utf-8" />
 	<meta name="viewport"
-		  content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	@* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />  *@
 	@* <link rel="stylesheet" href="~/HotelMangementSystem.styles.css" asp-append-version="true" /> *@
 	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700&display=swap"
-		  rel="stylesheet" />
+	rel="stylesheet" />
 
 	<link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css" />
 	<link rel="stylesheet" href="/css/animate.css" />
@@ -37,16 +37,16 @@
 <body>
 	<!-- Start nav -->
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-		 id="ftco-navbar">
+	id="ftco-navbar">
 		<div class="container">
 			<a class="navbar-brand" asp-action="Index" asp-controller="Home">Hotel<span>Haven</span></a>
 			<button class="navbar-toggler"
-					type="button"
-					data-toggle="collapse"
-					data-target="#ftco-nav"
-					aria-controls="ftco-nav"
-					aria-expanded="false"
-					aria-label="Toggle navigation">
+			type="button"
+			data-toggle="collapse"
+			data-target="#ftco-nav"
+			aria-controls="ftco-nav"
+			aria-expanded="false"
+			aria-label="Toggle navigation">
 				<span class="oi oi-menu"></span> Menu
 			</button>
 
@@ -62,10 +62,10 @@
 						<a asp-action="About" asp-controller="Home" class="nav-link">About Us</a>
 						@* <a href="about.html" class="nav-link">About Us</a> *@
 					</li>
-					@if (User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
-					{
-						<span id="count" class="text-danger">@ViewBag.PendingHotelNumberNotification</span>
-					}
+					@* @if (User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated) *@
+					@* { *@
+					@* 	<span id="count" class="text-danger">@ViewBag.PendingHotelNumberNotification</span> *@
+					@* } *@
 					@if (User.Identity.IsAuthenticated)
 					{
 
@@ -82,11 +82,11 @@
 					else
 					{
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+							<a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+							<a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
 						</li>
 					}
 					<li class="nav-item">
@@ -97,42 +97,34 @@
 								<div class="cdropdown">
 
 									<img id="profilePhoto"
-										 src="/images/user-profile-circle-solid.svg"
-										 class="profile-navbar"
-										 alt="" />
-									
+									src="/images/user-profile-circle-solid.svg"
+									class="profile-navbar"
+									alt="" />
+
 									<div class="cdropdown-content">
 										<p class="nav-link text-dark">
 											Welcome , @(User.Identity.IsAuthenticated ? @User.Identity.Name : "Guest")
 
 										</p>
 
-										@if (User.IsInRole("TopAdmin"))
+									
+										@if (User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
 										{
 											<a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AddNewRole">Add New Role</a>
 											<a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AssignRole">Assign Role</a>
-										}
-
-										@if (User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
-										{
 											<a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="PendingHotels">Pending Hotels <span id="count" class="text-danger">@ViewBag.PendingHotelNumberNotification</span></a>
-
 										}
-
 
 										@if (!User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
 										{
-											<a class="nav-link text-dark" asp-controller="Profile" asp-action="Index"><i class="bi bi-person-circle"></i> Profile</a>
 											<a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="AddNewHotel">Become Hotel Manager</a>
-
-
 											<a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="MyHotels">My Hotels</a>
-
-											@* <a class="nav-link text-light" asp-controller="Cart" asp-action="Index"><i class="bi bi-person-circle"></i> Cart</a> *@
-
+										}
+										@if (User.Identity.IsAuthenticated)
+										{
+											<a class="nav-link text-dark" asp-controller="Profile" asp-action="Index"><i class="bi bi-person-circle"></i> Profile</a>
 											<a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
-
-
+											
 										}
 
 									

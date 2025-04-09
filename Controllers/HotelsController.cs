@@ -2,7 +2,10 @@
 using HotelMangementSystem.Repositories;
 using HotelMangementSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using static HotelMangementSystem.Models.Enums.Enums;
 
 namespace HotelMangementSystem.Controllers
 {
@@ -49,7 +52,26 @@ namespace HotelMangementSystem.Controllers
             {
                 return NotFound();
             }
-            return View("Hotel", hotel);
+            HotelAndReviewViewModel hotelAndReviewViewModel = new HotelAndReviewViewModel()
+            {
+                HotelId = hotel.Id,
+                HotelName = hotel.Name,
+                HotelDescription = hotel.Description,
+                HotelStarRatig = hotel.StarRatig,
+                HotelStatus = hotel.HotelStatus,
+                HotelLocation = hotel.Location,
+                HotelPhoneNumber = hotel.PhoneNumber,
+                HotelNumberOfRooms = hotel.NumberOfRooms,
+                HotelIsDeleted = hotel.IsDeleted,
+                HotelManagerId = hotel.ManagerId,
+                HotelCityId = hotel.CityId,
+                HotelManager = hotel.Manager,
+                HotelCity = hotel.City,
+                HotelRooms = hotel.Rooms,
+                HotelReviews = hotel.Reviews,
+
+            };
+            return View("Hotel", hotelAndReviewViewModel);
         }
 
     }

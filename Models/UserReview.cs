@@ -11,7 +11,7 @@ namespace HotelMangementSystem.Models
 
 
 
-        public List<Review>? Reviews { get; set; }
+        public Review? Review { get; set; }
         public ApplicationUser? User { get; set; }
 
     }

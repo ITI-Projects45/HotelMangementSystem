@@ -79,6 +79,7 @@ namespace HotelMangementSystem
                 app.UseHsts();
             }
             app.MapHub<HAddHotelHub>("/HAddHotel");
+            app.MapHub<HReviewHub>("/HReview");
             app.UseCors();
 
             app.UseHttpsRedirection();
