@@ -62,7 +62,33 @@
 						<a asp-action="About" asp-controller="Home" class="nav-link">About Us</a>
 						@* <a href="about.html" class="nav-link">About Us</a> *@
 					</li>
+					@if (User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
+					{
+						<span id="count" class="text-danger">@ViewBag.PendingHotelNumberNotification</span>
+					}
+					@if (User.Identity.IsAuthenticated)
+					{
 
+						<li class="nav-item">
+							<a class="nav-link text-light" asp-controller="Cart" asp-action="Index"><i class="bi bi-person-circle"></i> Cart</a>
+						</li>
+						@* <li class="nav-item"> *@
+						@* 	<a class="nav-link text-light" asp-controller="Profile" asp-action="Index"><i class="bi bi-person-circle"></i> Profile</a> *@
+						@* </li> *@
+						@* <li class="nav-item"> *@
+						@* 	<a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a> *@
+						@* </li> *@
+					}
+					else
+					{
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+						</li>
+					}
 					<li class="nav-item">
 						<!---------------------------------------------------------------------------------------->
 
@@ -74,16 +100,18 @@
 										 src="/images/user-profile-circle-solid.svg"
 										 class="profile-navbar"
 										 alt="" />
-									@if (User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
-									{
-										<span id="count" class="text-danger">@ViewBag.PendingHotelNumberNotification</span>
-									}
+									
 									<div class="cdropdown-content">
 										<p class="nav-link text-dark">
 											Welcome , @(User.Identity.IsAuthenticated ? @User.Identity.Name : "Guest")
 
 										</p>
 
+										@if (User.IsInRole("TopAdmin"))
+										{
+											<a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AddNewRole">Add New Role</a>
+											<a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AssignRole">Assign Role</a>
+										}
 
 										@if (User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
 										{
@@ -94,40 +122,21 @@
 
 										@if (!User.IsInRole("TopAdmin") && User.Identity.IsAuthenticated)
 										{
+											<a class="nav-link text-dark" asp-controller="Profile" asp-action="Index"><i class="bi bi-person-circle"></i> Profile</a>
 											<a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="AddNewHotel">Become Hotel Manager</a>
 
 
 											<a class="nav-link text-dark" asp-area="" asp-controller="HotelAdmin" asp-action="MyHotels">My Hotels</a>
+
+											@* <a class="nav-link text-light" asp-controller="Cart" asp-action="Index"><i class="bi bi-person-circle"></i> Cart</a> *@
+
+											<a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
+
+
 										}
 
-										@if (User.IsInRole("TopAdmin"))
-										{
-											<a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AddNewRole">Add New Role</a>
-											<a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="AssignRole">Assign Role</a>
-										}
-
-										@if (User.Identity.IsAuthenticated)
-										{
-
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="Profile" asp-action="Index"><i class="bi bi-person-circle"></i> Profile</a>
-						</li><li class="nav-item">
-							<a class="nav-link text-light" asp-controller="Cart" asp-action="Index"><i class="bi bi-person-circle"></i> Cart</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
-						</li>
-										}
-										else
-										{
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-						</li>
-
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-						</li>
-										}
+									
+										
 			</div>
 		</div>
 		</div>
@@ -156,7 +165,7 @@
 							Far far away, behind the word mountains, far from the countries
 							Vokalia and Consonantia, there live the blind texts.
 						</p>
-				
+
 					</div>
 				</div>
 				<div class="col-md">

@@ -15,5 +15,9 @@ namespace HotelMangementSystem.Repositories
         {
             return context.RoomReservations.ToList();
         }
+        public RoomReservation GetRoomReservationByReservationId(int id)
+        {
+            return context.RoomReservations.FirstOrDefault(rr => rr.ReservationId == id);
+        }
     }
 }

@@ -188,5 +188,32 @@ namespace HotelMangementSystem.Controllers
             return RedirectToAction("Index");
         }
 
+        public void CheckReservationEnd()
+        {
+            List<RoomReservation> roomReservations = roomReservationRepo.GetRoomReservations();
+            List<Reservation> Reservations = reservationRepo.GetNotCompletedReservations();
+
+
+
+            foreach (Reservation reservation in Reservations)
+            {
+                if (reservation.CheckOutDate.Date == DateTime.Now.Date)
+                {
+                    reservation.ReservistionStatus = ReservistionStatuses.Completed;
+                    reservation.Bill.ReservistionStatus = ReservistionStatuses.Completed;
+                    RoomReservation roomReservation = roomReservationRepo.GetRoomReservationByReservationId(reservation.Id);
+                    List<int> rooms = roomReservation.RoomId;
+                    foreach (int roomId in rooms)
+                    {
+                        Room room = roomRepo.GetByIdWithNoTracking(roomId);
+                        room.roomStatus = RoomStatuses.Available;
+                        room.RoomReservation.Id = 0;
+                        room.RoomReservation = null;
+                    }
+
+                }
+            }
+        }
+
     }
 }

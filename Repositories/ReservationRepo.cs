@@ -2,6 +2,7 @@
 using HotelMangementSystem.Models;
 using HotelMangementSystem.Models.Database;
 using Microsoft.EntityFrameworkCore;
+using static HotelMangementSystem.Models.Enums.Enums;
 
 namespace HotelMangementSystem.Repositories
 {
@@ -16,6 +17,10 @@ namespace HotelMangementSystem.Repositories
         public List<Reservation> GetReservations()
         {
             return context.Reservations.Where(b => b.IsDeleted == false).ToList();
+        }
+        public List<Reservation> GetNotCompletedReservations()
+        {
+            return context.Reservations.Where(b => b.IsDeleted == false && b.ReservistionStatus == ReservistionStatuses.Confirmed).ToList();
         }
 
         public Reservation GetReservationByUserAndBookingDate(string userId, DateTime BookingDate)
