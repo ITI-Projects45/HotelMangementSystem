@@ -3,8 +3,10 @@ using System.Threading.Tasks;
 using HotelMangementSystem.Models;
 using HotelMangementSystem.Repositories;
 using HotelMangementSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static HotelMangementSystem.Models.Enums.Enums;
 
 namespace HotelMangementSystem.Controllers
@@ -53,6 +55,7 @@ namespace HotelMangementSystem.Controllers
             ViewBag.UserId = user.Id;
             return View(reservitionViewModel);
         }
+        [Authorize]
         public IActionResult Book(int RoomId)
         {
             roomIds.Add(RoomId);
@@ -67,7 +70,7 @@ namespace HotelMangementSystem.Controllers
             });
 
         }
-
+        [Authorize]
         public async Task<IActionResult> Booked(ReservitionViewModel reservitionViewModel)
         {
             //if (ModelState.IsValid)
@@ -181,6 +184,7 @@ namespace HotelMangementSystem.Controllers
             rooms.Clear();
             roomIds.Clear();
         }
+        [Authorize]
 
         public IActionResult RemoveFromRoomsList(int RoomId)
         {
@@ -213,6 +217,29 @@ namespace HotelMangementSystem.Controllers
 
                 }
             }
+        }
+        [Authorize]
+
+        public IActionResult CancelBook(int ReservationID)
+        {
+            Reservation reservation = reservationRepo.GetReservationByIdWithBill(ReservationID);
+            reservation.ReservistionStatus = ReservistionStatuses.Cancled;
+            reservation.Bill.ReservistionStatus = ReservistionStatuses.Cancled;
+            reservationRepo.Update(reservation);
+            reservationRepo.Save();
+
+
+            RoomReservation roomReservation = roomReservationRepo.GetRoomReservationByReservationId(ReservationID);
+            foreach (var RoomId in roomReservation.RoomId)
+            {
+                //Room room = roomRepo.GetByIdWithNoTracking(RoomId);
+                roomRepo.UpdateRoomStatuesAvailable(RoomId);
+            }
+            //context.Entry(room).State = EntityState.Modified;
+
+            roomRepo.Save();
+            return RedirectToAction("Index", "Profile");
+
         }
 
     }

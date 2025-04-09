@@ -10,6 +10,7 @@ using static HotelMangementSystem.Models.Enums.Enums;
 
 namespace HotelMangementSystem.Controllers
 {
+    [Authorize]
     public class HotelAdminController : Controller
     {
         private readonly ICityRepo cityRepo;
@@ -19,7 +20,6 @@ namespace HotelMangementSystem.Controllers
         private readonly IPendingHotelRepo pendingHotelRepo;
         private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IRoomRepo roomRepo;
-
         public HotelAdminController(ICityRepo cityRepo, UserManager<ApplicationUser> userManager, IHotelRepo hotelRepo, IHubContext<HAddHotelHub> addHotelHub, IPendingHotelRepo pendingHotelRepo, RoleManager<ApplicationRole> roleManager, IRoomRepo roomRepo)
         {
             this.cityRepo = cityRepo;

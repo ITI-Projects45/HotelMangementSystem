@@ -12,6 +12,7 @@ namespace HotelMangementSystem.Repositories
         Task<List<Room>> SearchAvailableRoomsOnlyAsync(int cityId, RoomTypes roomType);
         public Room GetByIdWithNoTracking(int id);
         public void UpdateRoomStatues(int id, RoomReservation roomReservation);
+        public void UpdateRoomStatuesAvailable(int id);
         public void UpdateReservationRoom(int id, RoomReservation roomReservation);
     }
 }

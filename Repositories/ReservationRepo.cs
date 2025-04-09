@@ -32,5 +32,15 @@ namespace HotelMangementSystem.Repositories
             return context.Reservations.AsNoTracking().Include(R => R.Bill).AsNoTracking().Where(r => r.UserId.Contains(userId)).ToList();
 
         }
+        public Reservation GetReservationByIdWithBillNoTracking(int id)
+        {
+            return context.Reservations.AsNoTracking().Include(R => R.Bill).AsNoTracking().FirstOrDefault(r => r.Id == id);
+
+        }
+        public Reservation GetReservationByIdWithBill(int id)
+        {
+            return context.Reservations.Include(R => R.Bill).FirstOrDefault(r => r.Id == id);
+
+        }
     }
 }

@@ -235,3 +235,17 @@ section {
 .stop-padding {
     padding: 0 !important;
 }
+
+.activepp {
+    background-color: #21cc7a !important;
+}
+
+.members {
+    width: 50%
+}
+
+@media screen and (max-width: 600px) {
+    .members {
+        width: 100%
+    }
+}

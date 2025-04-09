@@ -1,4 +1,5 @@
-﻿@model HotelMangementSystem.Models.ApplicationUser
+﻿@using static HotelMangementSystem.Models.Enums.Enums
+@model HotelMangementSystem.Models.ApplicationUser
 
 @{
 	ViewBag.Title = "My Profile";
@@ -36,6 +37,8 @@
 						<th scope="col">Check in date</th>
 						<th scope="col">Check out date</th>
 						<th scope="col">Total price</th>
+						<th scope="col">Cancel</th>
+
 					</tr>
 				</thead>
 				<tbody>
@@ -47,6 +50,24 @@
 							<td>@(item.CheckInDate.ToString("yyyy-MM-dd"))</td>
 							<td>@(item.CheckOutDate.ToString("yyyy-MM-dd"))</td>
 							<td>$@(item.Bill.TotalPrice)</td>
+							@if (item.CheckOutDate > DateTime.Now && item.ReservistionStatus == ReservistionStatuses.Confirmed)
+							{
+								<td><a asp-action="CancelBook" asp-controller="Cart" asp-route-ReservationID="@item.Id" class="btn btn-warning rounded">Cancel</a></td>
+							}
+							else if (item.CheckOutDate < DateTime.Now && item.ReservistionStatus == ReservistionStatuses.Completed)
+							{
+								<td><a class="btn btn-success rounded">Completed</a></td>
+							}
+							else if (item.ReservistionStatus == ReservistionStatuses.Cancled)
+							{
+								<td><a class="btn btn-danger rounded">Canceled</a></td>
+							}
+							else if (item.CheckOutDate < DateTime.Now )
+							{
+								<td><a class="btn btn-info rounded">Testing case</a></td>
+							}
+
+							
 
 						</tr>
 

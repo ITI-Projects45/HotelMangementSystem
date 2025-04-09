@@ -8,5 +8,7 @@ namespace HotelMangementSystem.Repositories
         public List<Reservation> GetNotCompletedReservations();
         public Reservation GetReservationByUserAndBookingDate(string userId, DateTime BookingDate);
         public List<Reservation> GetReservationByUser(string userId);
+        public Reservation GetReservationByIdWithBillNoTracking(int id);
+        public Reservation GetReservationByIdWithBill(int id);
     }
 }

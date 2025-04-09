@@ -65,7 +65,7 @@
 					</div>
 				</div>
 
-				<div class="about-author d-flex p-4 bg-light">
+				<div class="about-author d-flex p-4 bg-light flex-wrap">
 					<div class="bio align-self-md-center mr-4 w-25">
 						<img src="@Model.HotelManager.ProfilePictureURL" alt="Image placeholder" class="img-fluid  h-100">
 					</div>
@@ -162,7 +162,7 @@
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
 		<div class="row">
-			<div class="col-8">
+			<div class="col-12 col-sm-12 col-md-10 col-lg-8">
 				<div class="pt-5 mt-5">
 					<h3 class="mb-5" id="CommentsCount">@Model.HotelReviews.Count Comments</h3>
 					@if (@Model.HotelReviews.Count == 0)

@@ -75,6 +75,8 @@ namespace HotelMangementSystem.Repositories
             room.IsDeleted = true;
             room.roomStatus = Enums.RoomStatuses.NotAvailable;
         }
+
+
         public Room GetByIdWithNoTracking(int id)
         {
             var room = context.Rooms.AsNoTracking().Include(r => r.RoomReservation).Include(r => r.Hotel).AsNoTracking().FirstOrDefault(r => r.Id == id);
@@ -96,10 +98,22 @@ namespace HotelMangementSystem.Repositories
             {
                 context.Entry(room.Hotel).State = EntityState.Detached;
             }
-            //room.RoomReservation.Id
-            //RoomReservation roomRes = roomReservationRepo.GetById(roomReservationId);
-            //room.RoomReservation = roomRes;
-            //room.RoomReservation.Id = roomRes.Id;
+            context.Entry(room).State = EntityState.Modified;
+
+            context.Rooms.Update(room);
+        }
+
+
+        public void UpdateRoomStatuesAvailable(int id)
+        {
+            Room room = GetByIdWithNoTracking(id);
+            room.roomStatus = RoomStatuses.Available;
+            room.RoomReservation.Id = 0;
+            room.RoomReservation = null;
+            if (room.Hotel != null)
+            {
+                context.Entry(room.Hotel).State = EntityState.Detached;
+            }
             context.Entry(room).State = EntityState.Modified;
 
             context.Rooms.Update(room);
@@ -109,10 +123,6 @@ namespace HotelMangementSystem.Repositories
         {
             Room room = GetByIdWithNoTracking(id);
             room.RoomReservation = roomReservation;
-            //if (room.Hotel != null)
-            //{
-            //    context.Entry(room.Hotel).State = EntityState.Detached;
-            //}
             context.Entry(room).State = EntityState.Modified;
             room.RoomReservation.Id = roomReservation.Id;
             context.Rooms.Update(room);
