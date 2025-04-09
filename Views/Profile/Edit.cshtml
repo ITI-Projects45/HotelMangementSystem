@@ -1,5 +1,8 @@
 ﻿@model HotelMangementSystem.ViewModels.ProfileViewModel
-
+@{
+    ViewBag.Title = "Edit My Profile";
+  
+}
 <div class="hero-wrap" style="background-image: url('/images/bg_3.jpg');">
     <div class="overlay"></div>
     <div class="container">
@@ -47,7 +50,7 @@
         }
     </div>
 
-    <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
+    <button type="submit" class="btn btn-primary mt-2 mb-5">Save Changes</button>
 </form>
         </div>
         </div>
@@ -55,3 +58,24 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<script>
+    // Get a reference to our file input
+    const fileInput = document.querySelector('input[type="file"]');
+    const fileName = @Model.CurrentProfilePictureUrl;   ///images/profilePictures//hoteladmin22222.png
+        const extractedFileName = inputString.split("/").pop();
+    console.log(extractedFileName);
+
+
+
+    // Create a new File object
+    const myFile = new File(['Hello World!'], extractedFileName, {
+        type: 'image/*',
+        lastModified: new Date(),
+    });
+
+    // Now let's create a DataTransfer to get a FileList
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(myFile);
+    fileInput.files = dataTransfer.files;
+</script>
